@@ -1,5 +1,11 @@
-// import pg from "../db/connection.js"
+import pg from "../db/connection.js"
 
-// const signUpService = (body) => {
-//     if(body.name && body.user_type_id && body.email && body.password && body.password2)
+export const getUserRoles = async () => {
+    return pg.query('SELECT * FROM user_role')
+}
+
+// const userServices = {
+//     getUserRoles,
 // }
+
+// export default userServices

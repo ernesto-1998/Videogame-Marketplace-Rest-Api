@@ -1,20 +1,36 @@
+import * as userServices from "../services/user.services.js"
 
+export const getUserRoles = async (req, res) => {
+    try {
+        const user_roles = await userServices.getUserRoles()
+        if (!user_roles) req.status(204).json({status: 'no content'});
+        else res.status(200).json(user_roles.rows)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
 
-const signupController = (req, res) => {
+export const signupController = (req, res) => {
     res.json({
         route: 'User'
     })
 }
 
-const loginController = (req, res) => {
+export const loginController = (req, res) => {
     res.json({
         status: 'Logeado'
     })
 }
 
-const userController = {
-    signupController,
-    loginController,
+export const createProfile = (req, res) => {
+    res.json(req.body)
 }
 
-export default userController
+// const userControllers = {
+//     signupController,
+//     loginController,
+//     getUserRoles,
+//     createProfileController
+// }
+
+// export default userControllers
