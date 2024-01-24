@@ -4,7 +4,7 @@ export const getUserRoles = async (req, res) => {
     try {
         const user_roles = await userServices.getUserRoles()
         if (!user_roles) req.status(204).json({status: 'no content'});
-        else res.status(200).json(user_roles.rows)
+        else res.status(200).json(user_roles)
     } catch (error) {
         res.status(500).send(error)
     }
