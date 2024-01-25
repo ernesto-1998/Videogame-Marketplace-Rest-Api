@@ -13,13 +13,20 @@ export const getUserRoles = async (req, res) => {
 
 export const signupController = async (req, res) => {
     const errors = validationResult(req)
-    if (errors) res.status(400).send(errors)
-    else {
+    if (!errors.isEmpty()) {
+        res.status(400).send(
+            errors.errors.map((error) => {
+                return {
+                    path: error.path,
+                    value: error.value,
+                    message: error.msg,
+                }
+            })
+        )
+    } else {
         try {
             const user_created = await userServices.createUser(req.body)
-            if (!user_created)
-                req.status(204).json({ status: 'user could not be created...' })
-            else res.status(200).json(user_created)
+            res.status(200).json(user_created)
         } catch (error) {
             res.status(500).send(error)
         }
@@ -35,12 +42,3 @@ export const loginController = (req, res) => {
 export const createProfile = (req, res) => {
     res.json(req.body)
 }
-
-// const userControllers = {
-//     signupController,
-//     loginController,
-//     getUserRoles,
-//     createProfileController
-// }
-
-// export default userControllers
