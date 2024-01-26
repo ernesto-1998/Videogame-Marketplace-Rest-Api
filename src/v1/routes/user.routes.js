@@ -5,17 +5,23 @@ import * as authValidation from '../middlewares/auth.validation.js'
 
 const router = Router()
 
-router.get('/user-role', authValidation.isUserActive, userControllers.getUserRoles)
+router.get(
+    '/user-role',
+    authValidation.isUserActive,
+    authValidation.isUserAdmin,
+    userControllers.getUserRoles
+)
 
 router.post(
     '/signup',
-    userValidation.signupValidation, authValidation.isUserInactive,
+    userValidation.signupValidation,
+    authValidation.isUserInactive,
     userControllers.signupController
 )
 router.post(
     '/login',
-    userValidation.loginValidation, 
-    authValidation.isUserInactive,
+    userValidation.loginValidation,
+    // authValidation.isUserInactive,
     userControllers.loginController
 )
 

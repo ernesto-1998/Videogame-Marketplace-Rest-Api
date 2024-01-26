@@ -60,16 +60,26 @@ export const loginController = async (req, res) => {
                     message: user,
                 })
             } else {
-                req.session.save()
-                req.session.user = {
-                    id: user.id,
-                    roleId: user.user_role_id,
-                    email: user.email,
-    
-                }
-                res.status(200).json({
-                    status: 'Loging successfully',
-                    user: user,
+                req.session.regenerate((err) => {
+                    if (err) {
+                        return res.json({
+                            error: err,
+                        })
+                    } else {
+                        req.session.user = {
+                            id: user.id,
+                            roleId: user.user_role_id,
+                            email: user.email,
+                        }
+                        res.status(200).json({
+                            status: 'Loging successfully',
+                            user: {
+                                id: user.id,
+                                roleId: user.user_role_id,
+                                email: user.email,
+                            },
+                        })
+                    }
                 })
             }
         } catch (error) {
@@ -79,12 +89,7 @@ export const loginController = async (req, res) => {
 }
 
 export const logoutController = (req, res) => {
-    // if(req.session.user) {
-        req.session.destroy();
-        res.clearCookie(process.env.SESSION_NAME)
-        res.status(200).json({ message: 'User successfully logout...' })
-    // } else {
-    //     res.status(400).json({ message: 'There is no active user to logout...' })
-    // }
+    req.session.destroy()
+    res.clearCookie(process.env.SESSION_NAME)
+    res.status(200).json({ message: 'User successfully logout...' })
 }
-

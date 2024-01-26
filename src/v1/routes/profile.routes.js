@@ -4,4 +4,3 @@ import * as profileControllers from '../controllers/profile.controllers.js'
 const router = Router()
 
 router.get('/profile', profileControllers.getProfileByUserId)
-
