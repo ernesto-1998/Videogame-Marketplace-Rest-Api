@@ -26,17 +26,35 @@ export const signupController = async (req, res) => {
     } else {
         try {
             const user_created = await userServices.createUser(req.body)
-            res.status(200).json(user_created)
+            if (typeof user_created === 'string') {
+                res.status(400).json({
+                    message: user_created,
+                })
+            } else {
+                res.status(200).json(user_created)
+            }
         } catch (error) {
             res.status(500).send(error)
         }
     }
 }
 
-export const loginController = (req, res) => {
-    res.json({
-        status: 'Logeado',
-    })
+export const loginController = async (req, res) => {
+    try {
+        const user = await userServices.loginUser(req.body)
+        if (typeof user === 'string') {
+            res.status(400).json({
+                message: user,
+            })
+        } else {
+            res.status(200).json({
+                status: 'Loging successfully',
+                user: user,
+            })
+        }
+    } catch (error) {
+        res.status(500).send(error)
+    }
 }
 
 export const createProfile = (req, res) => {

@@ -22,9 +22,6 @@ router.post(
     userControllers.createProfile
 )
 
-router.patch(
-    '/profile',
-    userControllers.updateProfile
-)
+router.patch('/profile', userControllers.updateProfile)
 
 export default router

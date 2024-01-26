@@ -19,7 +19,7 @@ export const signupValidation = [
         .exists()
         .isLength({ min: 8, max: 50 })
         .withMessage(
-            'Password length must be higher than 7 and smallest than 50'
+            'Password length must be higher than 7 and smaller than 50'
         ),
 ]
 
