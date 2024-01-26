@@ -11,7 +11,7 @@ router.post(
     userValidation.signupValidation,
     userControllers.signupController
 )
-router.get(
+router.post(
     '/login',
     userValidation.loginValidation,
     userControllers.loginController
@@ -20,6 +20,11 @@ router.post(
     '/profile',
     userValidation.profileValidation,
     userControllers.createProfile
+)
+
+router.patch(
+    '/profile',
+    userControllers.updateProfile
 )
 
 export default router

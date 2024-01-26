@@ -32,6 +32,7 @@ export const loginValidation = [
 ]
 
 export const profileValidation = [
+    body('user_id', 'User id null').exists(),
     body('name', 'Name null').exists(),
     body('lastname', 'Lastname null').exists(),
     body('date_birth', 'Date of birth null')

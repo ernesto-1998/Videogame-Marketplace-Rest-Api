@@ -42,3 +42,7 @@ export const loginController = (req, res) => {
 export const createProfile = (req, res) => {
     res.json(req.body)
 }
+
+export const updateProfile = (req, res) => {
+    res.json(req.body)
+}
