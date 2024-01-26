@@ -20,7 +20,6 @@ export const createUser = async (body) => {
     let { email, password, user_role_id } = body
     const isEmailUsed = await getUserByEmail(email)
     if (isEmailUsed) {
-        console.log(isEmailUsed)
         return 'Email is already registered...'
     }
     password = await hashPassword(password)

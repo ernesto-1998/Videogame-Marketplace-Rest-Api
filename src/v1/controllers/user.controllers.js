@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator'
 
 export const getUserRoles = async (req, res) => {
     try {
+        console.log(req.session)
         const user_roles = await userServices.getUserRoles()
         if (!user_roles) req.status(204).json({ status: 'no content' })
         else res.status(200).json(user_roles)
@@ -57,10 +58,3 @@ export const loginController = async (req, res) => {
     }
 }
 
-export const createProfile = (req, res) => {
-    res.json(req.body)
-}
-
-export const updateProfile = (req, res) => {
-    res.json(req.body)
-}
