@@ -31,26 +31,5 @@ export const loginValidation = [
     body('password', 'Password length incorrect').exists(),
 ]
 
-export const profileValidation = [
-    body('user_id', 'User id null').exists(),
-    body('name', 'Name null').exists(),
-    body('lastname', 'Lastname null').exists(),
-    body('date_birth', 'Date of birth null')
-        .exists()
-        .isDate({ format: 'DD/MM/YYYY' })
-        .withMessage('Date format incorret, must be DD/MM/YYYY'),
-    body(
-        'profile_pic',
-        'profile pic must be an url string where you have stored the image'
-    )
-        .optional()
-        .isString(),
-    body('contact_email', 'Contact email format incorrect')
-        .optional()
-        .isEmail(),
-    body('contact_number', 'Incorrect format for contact number')
-        .optional()
-        .isString(),
-]
 
 // Custom functions

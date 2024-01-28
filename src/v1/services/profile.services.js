@@ -21,7 +21,7 @@ export const createProfile = async (body, userId) => {
         const contact_email = body.contact_email || null
         const contact_number = body.contact_number || null
         const query =
-            'INSERT INTO "user" (user_id, name, lastname, date_birth, profile_pic, contact_email, contact_number) VALUES($1, $2, $3, $4, $5, $6) RETURNING *'
+            'INSERT INTO profile (user_id, name, lastname, date_birth, profile_pic, contact_email, contact_number) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *'
         const values = [
             userId,
             name,
@@ -31,9 +31,8 @@ export const createProfile = async (body, userId) => {
             contact_email,
             contact_number,
         ]
-
-        const profile = await pg.query(query, values)
-        return profile.rows[0]
+        const profile_created = await pg.query(query, values)
+        return profile_created.rows[0]
     } catch (error) {
         return error
     }

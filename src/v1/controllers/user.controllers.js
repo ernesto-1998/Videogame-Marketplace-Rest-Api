@@ -1,5 +1,6 @@
 import * as userServices from '../services/user.services.js'
 import { validationResult } from 'express-validator'
+import errorMap from '../utils/error-map-handler.js'
 
 export const getUserRoles = async (req, res) => {
     try {
@@ -16,13 +17,7 @@ export const signupController = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         res.status(400).send(
-            errors.errors.map((error) => {
-                return {
-                    path: error.path,
-                    value: error.value,
-                    message: error.msg,
-                }
-            })
+            errorMap(errors)
         )
     } else {
         try {
@@ -44,13 +39,7 @@ export const loginController = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         res.status(400).send(
-            errors.errors.map((error) => {
-                return {
-                    path: error.path,
-                    value: error.value,
-                    message: error.msg,
-                }
-            })
+            errorMap(errors)
         )
     } else {
         try {
