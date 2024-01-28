@@ -1,4 +1,5 @@
 import pg from '../db/connection.js'
+import { createUpdateQuery } from '../utils/create-dynamic-query.js'
 
 export const getProfileByUserId = async (userId) => {
     try {
@@ -12,8 +13,8 @@ export const getProfileByUserId = async (userId) => {
 
 export const createProfile = async (body, userId) => {
     try {
-        const isProfileUsed = await getProfileByUserId(userId)
-        if (isProfileUsed) {
+        const hasUserProfile = await getProfileByUserId(userId)
+        if (hasUserProfile) {
             return 'This user already has a profile...'
         }
         const { name, lastname, date_birth } = body
@@ -38,10 +39,27 @@ export const createProfile = async (body, userId) => {
     }
 }
 
+export const updateProfile = async (body, userId) => {
+    try {
+        const hasUserProfile = await getProfileByUserId(userId)
+        if(!hasUserProfile) {
+            return 'This user does not have a profile...'
+        } else {
+            const query = createUpdateQuery(Object.keys(body), 'profile')
+            const values = [...Object.values(body), userId]
+            const user_updated = await pg.query(query, values)
+            console.log(user_updated)
+            return user_updated.rows[0]
+        }
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
 export const deleteProfile = async (userId) => {
     try {
-        const isProfileUsed = await getProfileByUserId(userId)
-        if(!isProfileUsed) {
+        const hasUserProfile = await getProfileByUserId(userId)
+        if(!hasUserProfile) {
             return 'This user does not have a profile...'
         }
         const query = 'DELETE FROM profile WHERE user_id = $1 RETURNING *'

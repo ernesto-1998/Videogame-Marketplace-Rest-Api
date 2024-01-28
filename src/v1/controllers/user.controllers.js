@@ -24,7 +24,7 @@ export const signupController = async (req, res) => {
             const user_created = await userServices.createUser(req.body)
             if (typeof user_created === 'string') {
                 res.status(400).json({
-                    message: user_created,
+                    status: user_created,
                 })
             } else {
                 res.status(200).json(user_created)
@@ -80,5 +80,5 @@ export const loginController = async (req, res) => {
 export const logoutController = (req, res) => {
     req.session.destroy()
     res.clearCookie(process.env.SESSION_NAME)
-    res.status(200).json({ message: 'User successfully logout...' })
+    res.status(200).json({ status: 'Logout succeded', message: 'User successfully logout...' })
 }

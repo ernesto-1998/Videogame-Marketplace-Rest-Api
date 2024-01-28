@@ -7,11 +7,11 @@ export const getProfileByUserId = async (req, res) => {
             const profile = await profileServices.getProfileByUserId(req.session.user.id)
             if (!profile) {
                 res.status(404).json({
-                    message: 'There is no profile for this user...',
+                    status: 'There is no profile for this user...',
                 })
             } else {
                 res.status(200).json({
-                    message: 'Profile successfully found',
+                    status: 'Profile successfully found',
                     profile: profile,
                 })
             }
@@ -30,9 +30,9 @@ export const createProfile = async (req, res) => {
         try {
             const profile_created = await profileServices.createProfile(req.body, req.session.user.id)
             if(typeof profile_created === 'string') {
-                res.status(400).json({ message: profile_created })
+                res.status(400).json({ status: profile_created })
             } else {
-                res.status(200).json({ message: 'Profile created', profile: profile_created })
+                res.status(200).json({ status: 'Profile created', profile: profile_created })
             }
         } catch (error) {
             res.status(500).json(error.message)
@@ -40,19 +40,31 @@ export const createProfile = async (req, res) => {
     }
 }
 
-export const deleteProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
     try {
-        const profile_deleted = await profileServices.deleteProfile(req.session.user.id)
-        if(typeof profile_deleted === 'string') {
-            res.status(400).json({ message: profile_deleted })
+        const profile_updated = await profileServices.updateProfile(req.body, req.session.user.id)
+        if(typeof profile_updated === 'string') {
+            res.status(400).json({ status: profile_updated })
         } else {
-            res.status(200).json({ message: 'Profile successfully deleted', profile_deleted: profile_deleted })
+            res.status(200).json({ status: 'Profile successfully updated', profile_updated: profile_updated })
         }
     } catch (error) {
         res.status(500).json(error.message)
     }
 }
 
-export const updateProfile = (req, res) => {
-    res.json(req.body)
+export const deleteProfile = async (req, res) => {
+    try {
+        const profile_deleted = await profileServices.deleteProfile(req.session.user.id)
+        if(typeof profile_deleted === 'string') {
+            res.status(400).json({ status: profile_deleted })
+        } else {
+            res.status(200).json({ status: 'Profile successfully deleted', profile_deleted: profile_deleted })
+        }
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
 }
+
+
+
