@@ -8,5 +8,6 @@ const router = Router()
 
 router.get('/profile', authValidator.isUserActive, profileControllers.getProfileByUserId)
 router.post('/profile', authValidator.isUserActive, dateValidator.validateDateMiddleware,profileValidator.profileValidation, profileControllers.createProfile)
+router.delete('/profile', authValidator.isUserActive, profileControllers.deleteProfile)
 
 export default router

@@ -12,22 +12,26 @@ export const getUserByEmail = async (email) => {
         const user = await pg.query(query, [email])
         return user.rows[0]
     } catch (error) {
-        console.log(error)
+        throw new Error(error)
     }
 }
 
 export const createUser = async (body) => {
-    let { email, password, user_role_id } = body
-    const isEmailUsed = await getUserByEmail(email)
-    if (isEmailUsed) {
-        return 'Email is already registered...'
+    try {
+        let { email, password, user_role_id } = body
+        const isEmailUsed = await getUserByEmail(email)
+        if (isEmailUsed) {
+            return 'Email is already registered...'
+        }
+        password = await hashPassword(password)
+        const query =
+            'INSERT INTO "user"(email, password, user_role_id) VALUES($1, $2, $3) RETURNING *'
+        const values = [email, password, user_role_id]
+        const user_created = await pg.query(query, values)
+        return user_created.rows[0]
+    } catch (error) {
+        throw new Error(error)
     }
-    password = await hashPassword(password)
-    const query =
-        'INSERT INTO "user"(email, password, user_role_id) VALUES($1, $2, $3) RETURNING *'
-    const values = [email, password, user_role_id]
-    const user_created = await pg.query(query, values)
-    return user_created.rows[0]
 }
 
 export const loginUser = async (body) => {

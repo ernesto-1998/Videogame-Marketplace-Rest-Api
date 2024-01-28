@@ -16,7 +16,7 @@ export const getProfileByUserId = async (req, res) => {
                 })
             }
         } catch (error) {
-            res.status(500).send(error)
+            res.status(500).json(error.message)
         }
 }
 
@@ -27,12 +27,29 @@ export const createProfile = async (req, res) => {
             errorMap(errors)
         )
     } else {
-        const profile_created = await profileServices.createProfile(req.body, req.session.user.id)
-        if(typeof profile_created === 'string') {
-            res.status(400).json({ message: profile_created })
-        } else {
-            res.status(200).json({ message: 'Profile created', profile: profile_created })
+        try {
+            const profile_created = await profileServices.createProfile(req.body, req.session.user.id)
+            if(typeof profile_created === 'string') {
+                res.status(400).json({ message: profile_created })
+            } else {
+                res.status(200).json({ message: 'Profile created', profile: profile_created })
+            }
+        } catch (error) {
+            res.status(500).json(error.message)
         }
+    }
+}
+
+export const deleteProfile = async (req, res) => {
+    try {
+        const profile_deleted = await profileServices.deleteProfile(req.session.user.id)
+        if(typeof profile_deleted === 'string') {
+            res.status(400).json({ message: profile_deleted })
+        } else {
+            res.status(200).json({ message: 'Profile successfully deleted', profile_deleted: profile_deleted })
+        }
+    } catch (error) {
+        res.status(500).json(error.message)
     }
 }
 

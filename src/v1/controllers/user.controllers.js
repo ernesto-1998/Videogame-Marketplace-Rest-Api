@@ -30,7 +30,7 @@ export const signupController = async (req, res) => {
                 res.status(200).json(user_created)
             }
         } catch (error) {
-            res.status(500).send(error)
+            res.status(500).json(error.message)
         }
     }
 }
@@ -72,7 +72,7 @@ export const loginController = async (req, res) => {
                 })
             }
         } catch (error) {
-            res.status(500).send(error)
+            res.status(500).json(error.message)
         }
     }
 }
