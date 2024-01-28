@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 
-export const profileValidation = [
+export const createProfileValidation = [
     body('name', 'Name null').exists(),
     body('lastname', 'Lastname null').exists(),
     body('date_birth', 'Date of birth null')
