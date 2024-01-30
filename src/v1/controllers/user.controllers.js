@@ -4,10 +4,19 @@ import errorMap from '../utils/error-map-handler.js'
 
 export const getUserRoles = async (req, res) => {
     try {
-        console.log(req.session)
         const user_roles = await userServices.getUserRoles()
-        if (!user_roles) req.status(204).json({ status: 'no content' })
+        if (!user_roles) req.status(404).json({ status: 'no content' })
         else res.status(200).json(user_roles)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await userServices.getAllUsers()
+        if (!users) req.status(404).json({ status: 'no content' })
+        else res.status(200).json(users)
     } catch (error) {
         res.status(500).send(error)
     }
@@ -16,9 +25,7 @@ export const getUserRoles = async (req, res) => {
 export const signupController = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        res.status(400).send(
-            errorMap(errors)
-        )
+        res.status(400).send(errorMap(errors))
     } else {
         try {
             const user_created = await userServices.createUser(req.body)
@@ -38,9 +45,7 @@ export const signupController = async (req, res) => {
 export const loginController = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        res.status(400).send(
-            errorMap(errors)
-        )
+        res.status(400).send(errorMap(errors))
     } else {
         try {
             const user = await userServices.loginUser(req.body)
@@ -80,5 +85,8 @@ export const loginController = async (req, res) => {
 export const logoutController = (req, res) => {
     req.session.destroy()
     res.clearCookie(process.env.SESSION_NAME)
-    res.status(200).json({ status: 'Logout succeded', message: 'User successfully logout...' })
+    res.status(200).json({
+        status: 'Logout succeded',
+        message: 'User successfully logout...',
+    })
 }

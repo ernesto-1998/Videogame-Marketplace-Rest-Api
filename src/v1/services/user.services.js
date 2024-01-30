@@ -1,14 +1,22 @@
 import pg from '../db/connection.js'
 import { hashPassword, comparePassword } from '../utils/password-utils.js'
+import * as dq from '../utils/create-dynamic-query.js'
 
-export const getUserRoles = () => {
-    const query = 'SELECT * FROM user_role'
-    return pg.query(query)
+const TABLE_SCHEMA_NAME = 'public.user'
+
+export const getUserRoles = async () => {
+    try {
+        const query = dq.createGetQuery('public.user_role')
+        const user_roles = await pg.query(query)
+        return user_roles.rows
+    } catch (error) {
+        throw new Error(error)
+    }
 }
 
 export const getUserByEmail = async (email) => {
     try {
-        const query = 'SELECT * FROM "user" WHERE email = $1'
+        const query = dq.createGetByEmailQuery(TABLE_SCHEMA_NAME)
         const user = await pg.query(query, [email])
         return user.rows[0]
     } catch (error) {
@@ -16,17 +24,28 @@ export const getUserByEmail = async (email) => {
     }
 }
 
+export const getAllUsers = async () => {
+    try {
+        const query = dq.createGetQuery(TABLE_SCHEMA_NAME)
+        const users = await pg.query(query)
+        return users.rows
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
 export const createUser = async (body) => {
     try {
-        let { email, password, user_role_id } = body
+        let { email, password } = body
         const isEmailUsed = await getUserByEmail(email)
         if (isEmailUsed) {
             return 'Email is already registered...'
         }
         password = await hashPassword(password)
-        const query =
-            'INSERT INTO "user"(email, password, user_role_id) VALUES($1, $2, $3) RETURNING *'
-        const values = [email, password, user_role_id]
+        const mapBody = new Map(Object.entries(body))
+        mapBody.set('password', password)
+        const query = dq.createInsertQuery([...mapBody.keys()], TABLE_SCHEMA_NAME)
+        const values = [...mapBody.values()]
         const user_created = await pg.query(query, values)
         return user_created.rows[0]
     } catch (error) {

@@ -1,5 +1,5 @@
 import { body } from 'express-validator'
-import { validateUserType } from '../utils/entities-validator.js'
+import { validateUserRole } from '../utils/entities-validator.js'
 import pg from '../db/connection.js'
 
 export const signupValidation = [
@@ -8,7 +8,7 @@ export const signupValidation = [
         .isNumeric()
         .withMessage('Must be a numeric integer value')
         .custom((id) => {
-            return validateUserType(pg.user_roles.rows, id)
+            return validateUserRole(pg.user_roles.rows, id)
         })
         .withMessage('User role does not exists...'),
     body('email', 'Email null')
@@ -30,6 +30,5 @@ export const loginValidation = [
         .withMessage('Email format incorrect'),
     body('password', 'Password length incorrect').exists(),
 ]
-
 
 // Custom functions

@@ -22,7 +22,7 @@ export const isUserInactive = (req, res, next) => {
 }
 
 export const isUserAdmin = (req, res, next) => {
-    if(req.session.user.roleId === 1) {
+    if (req.session.user.roleId === 1) {
         next()
     } else {
         res.status(400).json({

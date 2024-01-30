@@ -12,6 +12,13 @@ router.get(
     userControllers.getUserRoles
 )
 
+router.get(
+    '/user-all',
+    authValidation.isUserActive,
+    authValidation.isUserAdmin,
+    userControllers.getAllUsers
+)
+
 router.post(
     '/signup',
     userValidation.signupValidation,
@@ -29,6 +36,11 @@ router.get(
     '/logout',
     authValidation.isUserActive,
     userControllers.logoutController
+)
+
+router.patch(
+    '/update',
+
 )
 
 export default router
