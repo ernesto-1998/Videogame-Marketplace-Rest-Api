@@ -7,6 +7,7 @@ import userRoutes from './routes/user.routes.js'
 import profileRoutes from './routes/profile.routes.js'
 import consoleRoutes from './routes/console.routes.js'
 import videogameRoutes from './routes/videogame.routes.js'
+import genderRoutes from './routes/gender.routes.js'
 
 const app = express()
 app.use(express.json())
@@ -18,5 +19,6 @@ app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/user', authValidator.isUserActive, profileRoutes)
 app.use('/api/v1/console', consoleRoutes)
 app.use('/api/v1/videogame', videogameRoutes)
+app.use('/api/v1/videogame', genderRoutes)
 
 export default app

@@ -16,6 +16,22 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: update_updated_on_user_task(); Type: FUNCTION; Schema: public; Owner: neto
+--
+
+CREATE FUNCTION public.update_updated_on_user_task() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.update_updated_on_user_task() OWNER TO neto;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -264,7 +280,7 @@ CREATE TABLE public."user" (
     id integer NOT NULL,
     user_role_id integer NOT NULL,
     email character varying(255) NOT NULL,
-    password character varying(50) NOT NULL,
+    password character varying(255) NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
@@ -477,215 +493,6 @@ ALTER TABLE ONLY public.videogame_gender ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- Data for Name: address; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.address (id, user_id, country, state, street, zip_code, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Data for Name: console; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.console (id, console_dict_id, user_id, is_used, is_sold, price, image, description, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Data for Name: console_dictionary; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.console_dictionary (id, name, type) FROM stdin;
-1	playstation	desktop
-2	playstation 2	desktop
-3	playstation 3	desktop
-4	playstation 4	desktop
-5	playstation 5	desktop
-6	psp	portable
-7	psp go	portable
-8	ps vita	portable
-9	xbox	desktop
-10	xbox 360	desktop
-11	xbox one	desktop
-12	xbox series x	desktop
-13	xbox series s	desktop
-14	xbox portable	portable
-15	nintendo entertainment system	desktop
-16	super nintendo	desktop
-17	virtual boy	desktop
-18	nintendo 64	desktop
-19	gamecube	desktop
-20	wii	desktop
-21	wii u	desktop
-22	nintendo switch	desktop
-23	nintendo switch lite	portable
-24	game boy	portable
-25	game boy color	portable
-26	game boy advance	portable
-27	game boy advance sp	portable
-28	nintendo ds	portable
-29	nintendo 3ds	portable
-30	new nintendo 3ds	portable
-31	game & watch	portable
-32	sega master system	desktop
-33	sega genesis	desktop
-34	sega saturn	desktop
-35	sega dreamcast	desktop
-36	sega cd	desktop
-37	game gear	portable
-38	genesis nomad	portable
-39	pc	desktop
-40	generic	generic
-\.
-
-
---
--- Data for Name: gender; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.gender (id, name) FROM stdin;
-1	action
-2	adventure
-3	rpg
-4	fps
-5	sports
-6	simulation
-7	strategy
-8	horror
-9	mmorpg
-10	fighting
-11	puzzle
-12	racing
-13	sandbox
-14	music/rhythm
-15	platformer
-16	survival
-17	stealth
-\.
-
-
---
--- Data for Name: periferic; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.periferic (id, user_id, console_dict_id, name, is_used, is_sold, price, image, description, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Data for Name: profile; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.profile (id, user_id, name, lastname, date_birth, profile_pic, contact_email, contact_number, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public."user" (id, user_role_id, email, password, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Data for Name: user_role; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.user_role (id, role) FROM stdin;
-1	admin
-2	client
-\.
-
-
---
--- Data for Name: videogame; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.videogame (id, console_dict_id, user_id, name, is_used, is_sold, image, description, price, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Data for Name: videogame_gender; Type: TABLE DATA; Schema: public; Owner: neto
---
-
-COPY public.videogame_gender (id, videogame_id, gender_id) FROM stdin;
-\.
-
-
---
--- Name: address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.address_id_seq', 1, false);
-
-
---
--- Name: console_dictionary_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.console_dictionary_id_seq', 40, true);
-
-
---
--- Name: console_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.console_id_seq', 1, false);
-
-
---
--- Name: gender_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.gender_id_seq', 17, true);
-
-
---
--- Name: periferic_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.periferic_id_seq', 1, false);
-
-
---
--- Name: profile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.profile_id_seq', 1, false);
-
-
---
--- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.user_id_seq', 1, false);
-
-
---
--- Name: user_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.user_role_id_seq', 2, true);
-
-
---
--- Name: videogame_gender_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.videogame_gender_id_seq', 1, false);
-
-
---
--- Name: videogame_id_seq; Type: SEQUENCE SET; Schema: public; Owner: neto
---
-
-SELECT pg_catalog.setval('public.videogame_id_seq', 1, false);
-
-
---
 -- Name: address pk_address; Type: CONSTRAINT; Schema: public; Owner: neto
 --
 
@@ -763,6 +570,56 @@ ALTER TABLE ONLY public.videogame
 
 ALTER TABLE ONLY public.videogame_gender
     ADD CONSTRAINT pk_videogame_gender PRIMARY KEY (id);
+
+
+--
+-- Name: user user_email_key; Type: CONSTRAINT; Schema: public; Owner: neto
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_email_key UNIQUE (email);
+
+
+--
+-- Name: address update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: neto
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.address FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: console update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: neto
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.console FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: periferic update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: neto
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.periferic FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: profile update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: neto
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.profile FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: user update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: neto
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public."user" FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: videogame update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: neto
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.videogame FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
 
 
 --

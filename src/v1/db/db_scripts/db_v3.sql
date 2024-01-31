@@ -16,12 +16,26 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: update_updated_on_user_task(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.update_updated_on_user_task() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: address; Type: TABLE; Schema: public; Owner: neto
+-- Name: address; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.address (
@@ -36,10 +50,8 @@ CREATE TABLE public.address (
 );
 
 
-ALTER TABLE public.address OWNER TO neto;
-
 --
--- Name: address_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: address_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.address_id_seq
@@ -51,17 +63,15 @@ CREATE SEQUENCE public.address_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.address_id_seq OWNER TO neto;
-
 --
--- Name: address_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: address_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.address_id_seq OWNED BY public.address.id;
 
 
 --
--- Name: console; Type: TABLE; Schema: public; Owner: neto
+-- Name: console; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.console (
@@ -78,10 +88,8 @@ CREATE TABLE public.console (
 );
 
 
-ALTER TABLE public.console OWNER TO neto;
-
 --
--- Name: console_dictionary; Type: TABLE; Schema: public; Owner: neto
+-- Name: console_dictionary; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.console_dictionary (
@@ -91,10 +99,8 @@ CREATE TABLE public.console_dictionary (
 );
 
 
-ALTER TABLE public.console_dictionary OWNER TO neto;
-
 --
--- Name: console_dictionary_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: console_dictionary_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.console_dictionary_id_seq
@@ -106,17 +112,15 @@ CREATE SEQUENCE public.console_dictionary_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.console_dictionary_id_seq OWNER TO neto;
-
 --
--- Name: console_dictionary_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: console_dictionary_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.console_dictionary_id_seq OWNED BY public.console_dictionary.id;
 
 
 --
--- Name: console_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: console_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.console_id_seq
@@ -128,17 +132,15 @@ CREATE SEQUENCE public.console_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.console_id_seq OWNER TO neto;
-
 --
--- Name: console_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: console_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.console_id_seq OWNED BY public.console.id;
 
 
 --
--- Name: gender; Type: TABLE; Schema: public; Owner: neto
+-- Name: gender; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.gender (
@@ -147,10 +149,8 @@ CREATE TABLE public.gender (
 );
 
 
-ALTER TABLE public.gender OWNER TO neto;
-
 --
--- Name: gender_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: gender_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.gender_id_seq
@@ -162,17 +162,15 @@ CREATE SEQUENCE public.gender_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.gender_id_seq OWNER TO neto;
-
 --
--- Name: gender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: gender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.gender_id_seq OWNED BY public.gender.id;
 
 
 --
--- Name: periferic; Type: TABLE; Schema: public; Owner: neto
+-- Name: periferic; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.periferic (
@@ -190,10 +188,8 @@ CREATE TABLE public.periferic (
 );
 
 
-ALTER TABLE public.periferic OWNER TO neto;
-
 --
--- Name: periferic_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: periferic_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.periferic_id_seq
@@ -205,17 +201,15 @@ CREATE SEQUENCE public.periferic_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.periferic_id_seq OWNER TO neto;
-
 --
--- Name: periferic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: periferic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.periferic_id_seq OWNED BY public.periferic.id;
 
 
 --
--- Name: profile; Type: TABLE; Schema: public; Owner: neto
+-- Name: profile; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.profile (
@@ -232,10 +226,8 @@ CREATE TABLE public.profile (
 );
 
 
-ALTER TABLE public.profile OWNER TO neto;
-
 --
--- Name: profile_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.profile_id_seq
@@ -247,33 +239,29 @@ CREATE SEQUENCE public.profile_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.profile_id_seq OWNER TO neto;
-
 --
--- Name: profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.profile_id_seq OWNED BY public.profile.id;
 
 
 --
--- Name: user; Type: TABLE; Schema: public; Owner: neto
+-- Name: user; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public."user" (
     id integer NOT NULL,
     user_role_id integer NOT NULL,
     email character varying(255) NOT NULL,
-    password character varying(50) NOT NULL,
+    password character varying(255) NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
-ALTER TABLE public."user" OWNER TO neto;
-
 --
--- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.user_id_seq
@@ -285,17 +273,15 @@ CREATE SEQUENCE public.user_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.user_id_seq OWNER TO neto;
-
 --
--- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 
 
 --
--- Name: user_role; Type: TABLE; Schema: public; Owner: neto
+-- Name: user_role; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.user_role (
@@ -304,10 +290,8 @@ CREATE TABLE public.user_role (
 );
 
 
-ALTER TABLE public.user_role OWNER TO neto;
-
 --
--- Name: user_role_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: user_role_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.user_role_id_seq
@@ -319,17 +303,15 @@ CREATE SEQUENCE public.user_role_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.user_role_id_seq OWNER TO neto;
-
 --
--- Name: user_role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: user_role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.user_role_id_seq OWNED BY public.user_role.id;
 
 
 --
--- Name: videogame; Type: TABLE; Schema: public; Owner: neto
+-- Name: videogame; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.videogame (
@@ -347,10 +329,8 @@ CREATE TABLE public.videogame (
 );
 
 
-ALTER TABLE public.videogame OWNER TO neto;
-
 --
--- Name: videogame_gender; Type: TABLE; Schema: public; Owner: neto
+-- Name: videogame_gender; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.videogame_gender (
@@ -360,10 +340,8 @@ CREATE TABLE public.videogame_gender (
 );
 
 
-ALTER TABLE public.videogame_gender OWNER TO neto;
-
 --
--- Name: videogame_gender_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: videogame_gender_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.videogame_gender_id_seq
@@ -375,17 +353,15 @@ CREATE SEQUENCE public.videogame_gender_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.videogame_gender_id_seq OWNER TO neto;
-
 --
--- Name: videogame_gender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: videogame_gender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.videogame_gender_id_seq OWNED BY public.videogame_gender.id;
 
 
 --
--- Name: videogame_id_seq; Type: SEQUENCE; Schema: public; Owner: neto
+-- Name: videogame_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.videogame_id_seq
@@ -397,87 +373,85 @@ CREATE SEQUENCE public.videogame_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.videogame_id_seq OWNER TO neto;
-
 --
--- Name: videogame_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: neto
+-- Name: videogame_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.videogame_id_seq OWNED BY public.videogame.id;
 
 
 --
--- Name: address id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: address id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.address ALTER COLUMN id SET DEFAULT nextval('public.address_id_seq'::regclass);
 
 
 --
--- Name: console id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: console id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.console ALTER COLUMN id SET DEFAULT nextval('public.console_id_seq'::regclass);
 
 
 --
--- Name: console_dictionary id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: console_dictionary id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.console_dictionary ALTER COLUMN id SET DEFAULT nextval('public.console_dictionary_id_seq'::regclass);
 
 
 --
--- Name: gender id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: gender id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gender ALTER COLUMN id SET DEFAULT nextval('public.gender_id_seq'::regclass);
 
 
 --
--- Name: periferic id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: periferic id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.periferic ALTER COLUMN id SET DEFAULT nextval('public.periferic_id_seq'::regclass);
 
 
 --
--- Name: profile id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: profile id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.profile ALTER COLUMN id SET DEFAULT nextval('public.profile_id_seq'::regclass);
 
 
 --
--- Name: user id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: user id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 
 
 --
--- Name: user_role id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: user_role id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_role ALTER COLUMN id SET DEFAULT nextval('public.user_role_id_seq'::regclass);
 
 
 --
--- Name: videogame id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: videogame id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame ALTER COLUMN id SET DEFAULT nextval('public.videogame_id_seq'::regclass);
 
 
 --
--- Name: videogame_gender id; Type: DEFAULT; Schema: public; Owner: neto
+-- Name: videogame_gender id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame_gender ALTER COLUMN id SET DEFAULT nextval('public.videogame_gender_id_seq'::regclass);
 
 
 --
--- Name: address pk_address; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: address pk_address; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.address
@@ -485,7 +459,7 @@ ALTER TABLE ONLY public.address
 
 
 --
--- Name: console pk_console; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: console pk_console; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.console
@@ -493,7 +467,7 @@ ALTER TABLE ONLY public.console
 
 
 --
--- Name: console_dictionary pk_console_dict; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: console_dictionary pk_console_dict; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.console_dictionary
@@ -501,7 +475,7 @@ ALTER TABLE ONLY public.console_dictionary
 
 
 --
--- Name: gender pk_gender; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: gender pk_gender; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gender
@@ -509,7 +483,7 @@ ALTER TABLE ONLY public.gender
 
 
 --
--- Name: periferic pk_periferic; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: periferic pk_periferic; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.periferic
@@ -517,7 +491,7 @@ ALTER TABLE ONLY public.periferic
 
 
 --
--- Name: profile pk_profile; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: profile pk_profile; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.profile
@@ -525,7 +499,7 @@ ALTER TABLE ONLY public.profile
 
 
 --
--- Name: user pk_user; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: user pk_user; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."user"
@@ -533,7 +507,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- Name: user_role pk_user_role; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: user_role pk_user_role; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_role
@@ -541,7 +515,7 @@ ALTER TABLE ONLY public.user_role
 
 
 --
--- Name: videogame pk_videogame; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: videogame pk_videogame; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame
@@ -549,7 +523,7 @@ ALTER TABLE ONLY public.videogame
 
 
 --
--- Name: videogame_gender pk_videogame_gender; Type: CONSTRAINT; Schema: public; Owner: neto
+-- Name: videogame_gender pk_videogame_gender; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame_gender
@@ -557,7 +531,57 @@ ALTER TABLE ONLY public.videogame_gender
 
 
 --
--- Name: address fk_address_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: user user_email_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_email_key UNIQUE (email);
+
+
+--
+-- Name: address update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.address FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: console update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.console FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: periferic update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.periferic FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: profile update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.profile FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: user update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public."user" FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: videogame update_user_task_updated_on; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.videogame FOR EACH ROW EXECUTE FUNCTION public.update_updated_on_user_task();
+
+
+--
+-- Name: address fk_address_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.address
@@ -565,7 +589,7 @@ ALTER TABLE ONLY public.address
 
 
 --
--- Name: console fk_console_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: console fk_console_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.console
@@ -573,7 +597,7 @@ ALTER TABLE ONLY public.console
 
 
 --
--- Name: console fk_console_has_name_dict; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: console fk_console_has_name_dict; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.console
@@ -581,7 +605,7 @@ ALTER TABLE ONLY public.console
 
 
 --
--- Name: videogame_gender fk_gender_belongs_videogame; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: videogame_gender fk_gender_belongs_videogame; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame_gender
@@ -589,7 +613,7 @@ ALTER TABLE ONLY public.videogame_gender
 
 
 --
--- Name: periferic fk_periferic_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: periferic fk_periferic_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.periferic
@@ -597,7 +621,7 @@ ALTER TABLE ONLY public.periferic
 
 
 --
--- Name: periferic fk_periferic_name_console_dict; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: periferic fk_periferic_name_console_dict; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.periferic
@@ -605,7 +629,7 @@ ALTER TABLE ONLY public.periferic
 
 
 --
--- Name: profile fk_profile_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: profile fk_profile_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.profile
@@ -613,7 +637,7 @@ ALTER TABLE ONLY public.profile
 
 
 --
--- Name: user fk_user_has_role; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: user fk_user_has_role; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public."user"
@@ -621,7 +645,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- Name: videogame fk_videogame_belongs_console_dict; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: videogame fk_videogame_belongs_console_dict; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame
@@ -629,7 +653,7 @@ ALTER TABLE ONLY public.videogame
 
 
 --
--- Name: videogame fk_videogame_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: videogame fk_videogame_belongs_user; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame
@@ -637,13 +661,78 @@ ALTER TABLE ONLY public.videogame
 
 
 --
--- Name: videogame_gender fk_videogame_has_gender; Type: FK CONSTRAINT; Schema: public; Owner: neto
+-- Name: videogame_gender fk_videogame_has_gender; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.videogame_gender
     ADD CONSTRAINT fk_videogame_has_gender FOREIGN KEY (videogame_id) REFERENCES public.videogame(id);
 
+--Populate catalog table console dictionary
+INSERT INTO public.console_dictionary (name, type) VALUES
+('generic', 'generic'),
+('playstation', 'desktop'),
+('playstation 2', 'desktop'),
+('playstation 3', 'desktop'),
+('playstation 4', 'desktop'),
+('playstation 5', 'desktop'),
+('psp', 'portable'),
+('psp go', 'portable'),
+('ps vita', 'portable'),
+('xbox', 'desktop'),
+('xbox 360', 'desktop'),
+('xbox one', 'desktop'),
+('xbox series x', 'desktop'),
+('xbox series s', 'desktop'),
+('nintendo entertainment system', 'desktop'),
+('super nintendo', 'desktop'),
+('virtual boy', 'desktop'),
+('nintendo 64', 'desktop'),
+('gamecube', 'desktop'),
+('wii', 'desktop'),
+('wii u', 'desktop'),
+('nintendo switch', 'desktop'),
+('nintendo switch lite', 'portable'),
+('game boy', 'portable'),
+('game boy color', 'portable'),
+('game boy advance', 'portable'),
+('game boy advance sp', 'portable'),
+('nintendo ds', 'portable'),
+('nintendo 3ds', 'portable'),
+('new nintendo 3ds', 'portable'),
+('game & watch', 'portable'),
+('sega master system', 'desktop'),
+('sega genesis', 'desktop'),
+('sega saturn', 'desktop'),
+('sega dreamcast', 'desktop'),
+('sega cd', 'desktop'),
+('game gear', 'portable'),
+('genesis nomad', 'portable'),
+('pc', 'desktop');
 
+--Populate catalog table gender
+INSERT INTO public.gender (name) VALUES
+('action'),
+('adventure'),
+('rpg'),
+('fps'),
+('sports'),
+('simulation'),
+('strategy'),
+('horror'),
+('mmorpg'),
+('fighting'),
+('puzzle'),
+('racing'),
+('sandbox'),
+('music/rhythm'),
+('platformer'),
+('survival'),
+('stealth');
+
+--Populate catalog table user_role
+INSERT INTO public.user_role (role) VALUES
+('admin'),
+('client');
 --
 -- PostgreSQL database dump complete
 --
