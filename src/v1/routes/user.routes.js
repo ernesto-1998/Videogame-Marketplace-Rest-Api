@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as userControllers from '../controllers/user.controllers.js'
 import * as userValidation from '../middlewares/user.validation.js'
 import * as authValidation from '../middlewares/general/auth.validation.js'
+import { keysValidation } from '../middlewares/general/keysEntityValidation.js'
 
 const router = Router()
 
@@ -21,6 +22,7 @@ router.get(
 
 router.post(
     '/signup',
+    keysValidation.user,
     userValidation.signupValidation,
     authValidation.isUserInactive,
     userControllers.signupController

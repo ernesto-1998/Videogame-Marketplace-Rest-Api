@@ -6,7 +6,7 @@ export const getGenders = async (req, res) => {
     try {
         const data = await genderServices.getGenders()
         if (data.rows.length === 0) {
-            req.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.NO_CONTENT })
         }
         else {
             res.status(200).json({

@@ -9,6 +9,7 @@ const router = Router()
 router.get('/profile', profileControllers.getProfileByUserId)
 router.post(
     '/profile',
+    keysValidation.profile,
     dateValidator.validateDateMiddleware,
     profileValidator.createProfileValidation,
     profileControllers.createProfile

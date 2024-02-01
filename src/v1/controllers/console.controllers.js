@@ -7,7 +7,7 @@ export const getConsoleDictionary = async (req, res) => {
     try {
         const data = await consoleServices.getConsoleDictionary()
         if (data.rows.length === 0) {
-            req.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.NO_CONTENT })
         }
         else {
             res.status(200).json({
@@ -41,7 +41,7 @@ export const getAllConsolesByUserId = async (req, res) => {
     try {
         const data = await consoleServices.getAllConsolesByUserId(req.session.user.id)
         if (data.rows.length === 0) {
-            req.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.NO_CONTENT })
         }
         else {
             res.status(200).json({
@@ -62,7 +62,7 @@ export const createConsole = async (req, res) => {
         try {
             const data = await consoleServices.createConsole(req.body, req.session.user.id)
             if (data) {
-                req.status(404).json({ status: STATUS.NO_CONTENT })
+                res.status(404).json({ status: STATUS.NO_CONTENT })
             }
             else {
                 res.status(200).json({
@@ -84,7 +84,7 @@ export const updateConsole = async (req, res) => {
         try {
             const data = await consoleServices.updateConsole(req.body, req.params['id'])
             if (data.rows.length === 0) {
-                req.status(404).json({ status: STATUS.NO_CONTENT })
+                res.status(404).json({ status: STATUS.NO_CONTENT })
             }
             else {
                 res.status(200).json({
@@ -102,7 +102,7 @@ export const deleteAllConsolesByUserId = async (req, res) => {
     try {
        const data = await consoleServices.deleteAllConsolesByUserId(req.session.user.id) 
        if (data.rows.length === 0) {
-        req.status(404).json({ status: STATUS.NO_CONTENT })
+        res.status(404).json({ status: STATUS.NO_CONTENT })
        }
        else {
         res.status(200).json({
@@ -118,7 +118,7 @@ export const deleteConsole = async (req, res) => {
     try {
        const data = await consoleServices.deleteConsole(req.params['id']) 
        if (data.rows.length === 0) {
-        req.status(404).json({ status: STATUS.NO_CONTENT })
+        res.status(404).json({ status: STATUS.NO_CONTENT })
        }
        else {
         res.status(200).json({

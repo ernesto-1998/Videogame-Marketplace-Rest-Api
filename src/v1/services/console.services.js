@@ -7,8 +7,8 @@ const TABLE_SCHEMA_NAME = 'public.console'
 export const getConsoleDictionary = async () => {
     try {
         const query = createGetQuery('public.console_dictionary')
-        const console_dict = await pg.query(query)
-        return console_dict
+        const data = await pg.query(query)
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -17,8 +17,8 @@ export const getConsoleDictionary = async () => {
 export const getConsoleById = async (consoleId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME, 'id')
-        const console = await pg.query(query, [consoleId])
-        return console
+        const data = await pg.query(query, [consoleId])
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -27,8 +27,8 @@ export const getConsoleById = async (consoleId) => {
 export const getAllConsolesByUserId = async (userId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME, userId)
-        const consoles = await pg.query(query, [userId])
-        return consoles
+        const data = await pg.query(query, [userId])
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -40,8 +40,8 @@ export const createConsole = async (body, userId) => {
         mapBody.set('user_id', userId)
         const query = createInsertQuery([...mapBody.keys()], TABLE_SCHEMA_NAME)
         const values = [...mapBody.values()]
-        const console = await pg.query(query, values)
-        return console
+        const data = await pg.query(query, values)
+        return data
     } catch(error) {
         throw new Error(error)
     }
@@ -56,8 +56,8 @@ export const updateConsole = async (body, consoleId) => {
             const mapBody = new Map(Object.entries(body));
             const query = createUpdateQuery([...mapBody.keys()], TABLE_SCHEMA_NAME, 'id')
             const values = [...mapBody.values(), consoleId]
-            const user_updated = await pg.query(query, values)
-            return user_updated
+            const data = await pg.query(query, values)
+            return data
         }
     } catch (error) {
         throw new Error(error)
@@ -71,8 +71,8 @@ export const deleteConsole = async (consoleId) => {
             return 'This console does not exists...'
         }
         const query = createDeleteByIdQuery(TABLE_SCHEMA_NAME, 'id')
-        const profile_deleted = await pg.query(query, [consoleId])
-        return profile_deleted
+        const data = await pg.query(query, [consoleId])
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -85,8 +85,8 @@ export const deleteAllConsolesByUserId = async (userId) => {
             return 'This user does not have a consoles registered...'
         }
         const query = createDeleteAllByUserIdQuery(TABLE_SCHEMA_NAME)
-        const profiles_deleted = await pg.query(query, [userId])
-        return profiles_deleted
+        const data = await pg.query(query, [userId])
+        return data
     } catch (error) {
         throw new Error(error)
     }

@@ -8,7 +8,7 @@ export const getUserRoles = async (req, res) => {
     try {
         const data = await userServices.getUserRoles()
         if (data.rows.length === 0) {
-            req.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.NO_CONTENT })
         }
         else {
             res.status(200).json({
@@ -24,7 +24,7 @@ export const getAllUsers = async (req, res) => {
     try {
         const data = await userServices.getAllUsers()
         if (data.rows.length === 0) {
-            req.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.NO_CONTENT })
         }
         else {
             res.status(200).json({
