@@ -18,7 +18,7 @@ export const getUserByEmail = async (email) => {
     try {
         const query = dq.createGetByEmailQuery(TABLE_SCHEMA_NAME)
         const user = await pg.query(query, [email])
-        return user.rows[0]
+        return user.rows
     } catch (error) {
         throw new Error(error)
     }
@@ -47,7 +47,7 @@ export const createUser = async (body) => {
         const query = dq.createInsertQuery([...mapBody.keys()], TABLE_SCHEMA_NAME)
         const values = [...mapBody.values()]
         const user_created = await pg.query(query, values)
-        return user_created.rows[0]
+        return user_created.rows
     } catch (error) {
         throw new Error(error)
     }

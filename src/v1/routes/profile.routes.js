@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import * as profileControllers from '../controllers/profile.controllers.js'
 import * as profileValidator from '../middlewares/profile.validation.js'
-import * as dateValidator from '../middlewares/date.validation.js'
-import { keysValidation } from '../middlewares/keysEntityValidation.js'
+import * as dateValidator from '../middlewares/general/date.validation.js'
+import { keysValidation } from '../middlewares/general/keysEntityValidation.js'
 
 const router = Router()
 

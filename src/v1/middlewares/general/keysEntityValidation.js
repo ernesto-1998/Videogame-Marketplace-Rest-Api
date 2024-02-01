@@ -1,4 +1,4 @@
-import entitieKeys from '../enums/entities-keys.js'
+import entitieKeys from '../../enums/entities-keys.js'
 
 export const keysValidation = {
     profile: (req, res, next) => {

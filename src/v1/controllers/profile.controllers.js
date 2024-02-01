@@ -2,6 +2,8 @@ import { validationResult } from 'express-validator'
 import * as profileServices from '../services/profile.services.js'
 import errorMap from '../utils/error-map-handler.js'
 
+import STATUS from '../enums/status-keys.js'
+
 export const getProfileByUserId = async (req, res) => {
     try {
         const profile = await profileServices.getProfileByUserId(
@@ -9,11 +11,11 @@ export const getProfileByUserId = async (req, res) => {
         )
         if (!profile) {
             res.status(404).json({
-                status: 'There is no profile for this user...',
+                status: STATUS.NO_CONTENT,
             })
         } else {
             res.status(200).json({
-                status: 'Profile successfully found',
+                status: STATUS.GET,
                 profile: profile,
             })
         }
@@ -33,10 +35,11 @@ export const createProfile = async (req, res) => {
                 req.session.user.id
             )
             if (typeof profile_created === 'string') {
-                res.status(400).json({ status: profile_created })
+                res.status(400).json({ status: STATUS.ERROR,
+                message: profile_created })
             } else {
                 res.status(200).json({
-                    status: 'Profile created',
+                    status: STATUS.CREATE,
                     profile: profile_created,
                 })
             }
@@ -53,10 +56,11 @@ export const updateProfile = async (req, res) => {
             req.session.user.id
         )
         if (typeof profile_updated === 'string') {
-            res.status(400).json({ status: profile_updated })
+            res.status(400).json({ status: STATUS.ERROR,
+            message: profile_updated })
         } else {
             res.status(200).json({
-                status: 'Profile successfully updated',
+                status: STATUS.UPDATE,
                 profile_updated: profile_updated,
             })
         }
@@ -71,10 +75,11 @@ export const deleteProfile = async (req, res) => {
             req.session.user.id
         )
         if (typeof profile_deleted === 'string') {
-            res.status(400).json({ status: profile_deleted })
+            res.status(400).json({ status: STATUS.ERROR,
+                message: profile_deleted })
         } else {
             res.status(200).json({
-                status: 'Profile successfully deleted',
+                status: STATUS.DELETE,
                 profile_deleted: profile_deleted,
             })
         }
