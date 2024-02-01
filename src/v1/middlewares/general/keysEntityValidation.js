@@ -1,4 +1,7 @@
-import entitieKeys from '../../enums/entities-keys.js'
+import entitieKeys from '../../keys/entities-keys.js'
+import STATUS from '../../enums/status-keys.js'
+
+const message = 'There are keys in the body that does not exists...'
 
 export const keysValidation = {
     profile: (req, res, next) => {
@@ -8,8 +11,8 @@ export const keysValidation = {
         }
         if (hasDifferentValue.some((value) => value === false)) {
             res.status(400).json({
-                status: 'Error',
-                message: 'There are keys in the body that does not exists...',
+                status: STATUS.ERROR,
+                message,
             })
         } else {
             next()
@@ -22,8 +25,8 @@ export const keysValidation = {
         }
         if (hasDifferentValue.some((value) => value === false)) {
             res.status(400).json({
-                status: 'Error',
-                message: 'There are keys in the body that does not exists...',
+                status: STATUS.ERROR,
+                message,
             })
         } else {
             next()
@@ -36,8 +39,8 @@ export const keysValidation = {
         }
         if (hasDifferentValue.some((value) => value === false)) {
             res.status(400).json({
-                status: 'Error',
-                message: 'There are keys in the body that does not exists...',
+                status: STATUS.ERROR,
+                message,
             })
         } else {
             next()
@@ -50,8 +53,8 @@ export const keysValidation = {
         }
         if (hasDifferentValue.some((value) => value === false)) {
             res.status(400).json({
-                status: 'Error',
-                message: 'There are keys in the body that does not exists...',
+                status: STATUS.ERROR,
+                message,
             })
         } else {
             next()
@@ -66,8 +69,8 @@ export const keysValidation = {
         }
         if (hasDifferentValue.some((value) => value === false)) {
             res.status(400).json({
-                status: 'Error',
-                message: 'There are keys in the body that does not exists...',
+                status: STATUS.ERROR,
+                message,
             })
         } else {
             next()
@@ -82,8 +85,8 @@ export const keysValidation = {
         }
         if (hasDifferentValue.some((value) => value === false)) {
             res.status(400).json({
-                status: 'Error',
-                message: 'There are keys in the body that does not exists...',
+                status: STATUS.ERROR,
+                message,
             })
         } else {
             next()
@@ -98,8 +101,8 @@ export const keysValidation = {
         }
         if (hasDifferentValue.some((value) => value === false)) {
             res.status(400).json({
-                status: 'Error',
-                message: 'There are keys in the body that does not exists...',
+                status: STATUS.ERROR,
+                message,
             })
         } else {
             next()
