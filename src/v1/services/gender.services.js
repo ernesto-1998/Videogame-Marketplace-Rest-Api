@@ -8,7 +8,7 @@ export const getGenders = async () => {
     try {
         const query = createGetQuery(TABLE_SCHEMA_NAME)
         const genders = await pg.query(query)
-        return genders.rows
+        return genders
     } catch (error) {
         throw new Error(error)
     }

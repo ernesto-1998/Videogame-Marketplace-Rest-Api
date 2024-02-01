@@ -6,14 +6,14 @@ import STATUS from '../enums/status-keys.js'
 
 export const getUserRoles = async (req, res) => {
     try {
-        const user_roles = await userServices.getUserRoles()
-        if (!user_roles) {
+        const data = await userServices.getUserRoles()
+        if (data.rows.length === 0) {
             req.status(404).json({ status: STATUS.NO_CONTENT })
         }
         else {
             res.status(200).json({
                 status: STATUS.GETS,
-                user_roles})
+                data})
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -22,14 +22,14 @@ export const getUserRoles = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await userServices.getAllUsers()
-        if (!users) {
+        const data = await userServices.getAllUsers()
+        if (data.rows.length === 0) {
             req.status(404).json({ status: STATUS.NO_CONTENT })
         }
         else {
             res.status(200).json({
                 status: STATUS.GETS,
-                users})
+                data})
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -42,16 +42,16 @@ export const signupController = async (req, res) => {
         res.status(400).send(errorMap(errors))
     } else {
         try {
-            const user_created = await userServices.createUser(req.body)
-            if (typeof user_created === 'string') {
+            const data = await userServices.createUser(req.body)
+            if (typeof data === 'string') {
                 res.status(400).json({
                     status: STATUS.ERROR,
-                    message: user_created
+                    message: data
                 })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
-                    user_created})
+                    data})
             }
         } catch (error) {
             res.status(500).json(error.message)
@@ -65,38 +65,43 @@ export const loginController = async (req, res) => {
         res.status(400).send(errorMap(errors))
     } else {
         try {
-            const user = await userServices.loginUser(req.body)
+            const data = await userServices.loginUser(req.body)
             if (typeof user === 'string') {
                 res.status(400).json({
                     status: STATUS.ERROR,
-                    message: user,
+                    message: data,
                 })
             } else {
                 req.session.regenerate((err) => {
                     if (err) {
-                        res.json({
-                            status: STATUS.ERROR,
-                            error: err,
-                        })
+                        return (
+                            res.json({
+                                status: STATUS.ERROR,
+                                error: err,
+                            })
+                        )
                     } else {
                         req.session.user = {
-                            id: user.id,
-                            roleId: user.user_role_id,
-                            email: user.email,
+                            id: data.rows[0].id,
+                            roleId: data.rows[0].user_role_id,
+                            email: data.rows[0].email,
                         }
                         res.status(200).json({
                             status: STATUS.LOGIN,
-                            user: {
-                                id: user.id,
-                                roleId: user.user_role_id,
-                                email: user.email,
+                            data: {
+                                id: data.rows[0].id,
+                                roleId: data.rows[0].user_role_id,
+                                email: data.rows[0].email,
                             },
                         })
                     }
                 })
             }
         } catch (error) {
-            res.status(500).json(error.message)
+            res.status(500).json({
+                status: STATUS.ERROR,
+                message: error.message
+            })
         }
     }
 }

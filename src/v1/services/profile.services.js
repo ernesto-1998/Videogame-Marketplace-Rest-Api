@@ -7,7 +7,7 @@ export const getProfileByUserId = async (userId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME, 'user_id')
         const profile = await pg.query(query, [userId])
-        return profile.rows
+        return profile
     } catch (error) {
         throw new Error(error)
     }
@@ -16,7 +16,7 @@ export const getProfileByUserId = async (userId) => {
 export const createProfile = async (body, userId) => {
     try {
         const hasUserProfile = await getProfileByUserId(userId)
-        if (hasUserProfile) {
+        if (hasUserProfile.rows.length > 0 ) {
             return 'This user already has a profile...'
         }
         const mapBody = new Map(Object.entries(body));
@@ -24,7 +24,7 @@ export const createProfile = async (body, userId) => {
         const query = createInsertQuery([...mapBody.keys()], TABLE_SCHEMA_NAME)
         const values = [...mapBody.values()]
         const profile_created = await pg.query(query, values)
-        return profile_created.rows
+        return profile_created
     } catch (error) {
         throw new Error(error)
     }
@@ -33,14 +33,14 @@ export const createProfile = async (body, userId) => {
 export const updateProfile = async (body, userId) => {
     try {
         const hasUserProfile = await getProfileByUserId(userId)
-        if (!hasUserProfile) {
+        if (hasUserProfile.rows.length === 0) {
             return 'This user does not have a profile...'
         } else {
             const mapBody = new Map(Object.entries(body));
             const query = createUpdateQuery([...mapBody.keys()], TABLE_SCHEMA_NAME, 'user_id')
             const values = [...mapBody.values(), userId]
             const user_updated = await pg.query(query, values)
-            return user_updated.rows
+            return user_updated
         }
     } catch (error) {
         throw new Error(error)
@@ -50,12 +50,12 @@ export const updateProfile = async (body, userId) => {
 export const deleteProfile = async (userId) => {
     try {
         const hasUserProfile = await getProfileByUserId(userId)
-        if (!hasUserProfile) {
+        if (hasUserProfile.rows.length === 0) {
             return 'This user does not have a profile...'
         }
         const query = createDeleteByIdQuery(TABLE_SCHEMA_NAME, 'user_id')
         const profileDeleted = await pg.query(query, [userId])
-        return profileDeleted.rows
+        return profileDeleted
     } catch (error) {
         throw new Error(error)
     }

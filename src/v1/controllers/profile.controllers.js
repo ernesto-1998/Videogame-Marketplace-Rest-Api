@@ -6,18 +6,17 @@ import STATUS from '../enums/status-keys.js'
 
 export const getProfileByUserId = async (req, res) => {
     try {
-        const profile = await profileServices.getProfileByUserId(
+        const data = await profileServices.getProfileByUserId(
             req.session.user.id
         )
-        if (!profile) {
-            res.status(404).json({
+        if (data.rows.length === 0) {
+            res.status(400).json({
                 status: STATUS.NO_CONTENT,
             })
         } else {
             res.status(200).json({
                 status: STATUS.GET,
-                profile: profile,
-            })
+                data})
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -30,18 +29,19 @@ export const createProfile = async (req, res) => {
         res.status(400).send(errorMap(errors))
     } else {
         try {
-            const profile_created = await profileServices.createProfile(
+            const data = await profileServices.createProfile(
                 req.body,
                 req.session.user.id
             )
-            if (typeof profile_created === 'string') {
-                res.status(400).json({ status: STATUS.ERROR,
-                message: profile_created })
+            if (typeof data === 'string') {
+                res.status(400).json({
+                    status: STATUS.ERROR,
+                    message: data
+                })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
-                    profile: profile_created,
-                })
+                    data})
             }
         } catch (error) {
             res.status(500).json(error.message)
@@ -51,18 +51,19 @@ export const createProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
     try {
-        const profile_updated = await profileServices.updateProfile(
+        const data = await profileServices.updateProfile(
             req.body,
             req.session.user.id
         )
-        if (typeof profile_updated === 'string') {
-            res.status(400).json({ status: STATUS.ERROR,
-            message: profile_updated })
+        if (typeof data === 'string') {
+            res.status(400).json({
+                status: STATUS.ERROR,
+                message: data
+            })
         } else {
             res.status(200).json({
                 status: STATUS.UPDATE,
-                profile_updated: profile_updated,
-            })
+                data})
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -71,16 +72,16 @@ export const updateProfile = async (req, res) => {
 
 export const deleteProfile = async (req, res) => {
     try {
-        const profile_deleted = await profileServices.deleteProfile(
+        const data = await profileServices.deleteProfile(
             req.session.user.id
         )
-        if (typeof profile_deleted === 'string') {
+        if (typeof data === 'string') {
             res.status(400).json({ status: STATUS.ERROR,
-                message: profile_deleted })
+                message: data })
         } else {
             res.status(200).json({
                 status: STATUS.DELETE,
-                profile_deleted: profile_deleted,
+                data,
             })
         }
     } catch (error) {

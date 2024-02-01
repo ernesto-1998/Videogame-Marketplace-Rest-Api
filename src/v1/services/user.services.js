@@ -8,7 +8,7 @@ export const getUserRoles = async () => {
     try {
         const query = dq.createGetQuery('public.user_role')
         const user_roles = await pg.query(query)
-        return user_roles.rows
+        return user_roles
     } catch (error) {
         throw new Error(error)
     }
@@ -18,7 +18,7 @@ export const getUserByEmail = async (email) => {
     try {
         const query = dq.createGetByEmailQuery(TABLE_SCHEMA_NAME)
         const user = await pg.query(query, [email])
-        return user.rows
+        return user
     } catch (error) {
         throw new Error(error)
     }
@@ -28,7 +28,7 @@ export const getAllUsers = async () => {
     try {
         const query = dq.createGetQuery(TABLE_SCHEMA_NAME)
         const users = await pg.query(query)
-        return users.rows
+        return users
     } catch (error) {
         throw new Error(error)
     }
@@ -38,7 +38,7 @@ export const createUser = async (body) => {
     try {
         let { email, password } = body
         const isEmailUsed = await getUserByEmail(email)
-        if (isEmailUsed) {
+        if (isEmailUsed.rows.length > 0) {
             return 'Email is already registered...'
         }
         password = await hashPassword(password)
@@ -47,7 +47,7 @@ export const createUser = async (body) => {
         const query = dq.createInsertQuery([...mapBody.keys()], TABLE_SCHEMA_NAME)
         const values = [...mapBody.values()]
         const user_created = await pg.query(query, values)
-        return user_created.rows
+        return user_created
     } catch (error) {
         throw new Error(error)
     }
@@ -56,10 +56,10 @@ export const createUser = async (body) => {
 export const loginUser = async (body) => {
     let { email, password } = body
     let user = await getUserByEmail(email)
-    if (!user) {
+    if (user.rows.length === 0) {
         return 'Email or password incorrect'
     } else {
-        const isValid = await comparePassword(password, user.password)
+        const isValid = await comparePassword(password, user.rows[0].password)
         if (!isValid) {
             return 'Wrong password...'
         } else {
