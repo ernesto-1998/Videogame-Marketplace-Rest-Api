@@ -11,6 +11,14 @@ const pool = new Pool({
     port: process.env.PGPORT,
 })
 
+const client = await pool.connect()
+
+export const cl = {
+    query: (text, params, callback) => {
+        return client.query(text, params, callback)
+    },
+}
+
 const user_roles = await pool.query('SELECT * FROM user_role')
 const console_dictionary = await pool.query('SELECT * FROM console_dictionary')
 const genders = await pool.query('SELECT * FROM gender')

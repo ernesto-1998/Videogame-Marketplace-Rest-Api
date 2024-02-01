@@ -16,7 +16,8 @@ export const getProfileByUserId = async (req, res) => {
         } else {
             res.status(200).json({
                 status: STATUS.GET,
-                data})
+                data,
+            })
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -36,12 +37,13 @@ export const createProfile = async (req, res) => {
             if (typeof data === 'string') {
                 res.status(400).json({
                     status: STATUS.ERROR,
-                    message: data
+                    message: data,
                 })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
-                    data})
+                    data,
+                })
             }
         } catch (error) {
             res.status(500).json(error.message)
@@ -58,12 +60,13 @@ export const updateProfile = async (req, res) => {
         if (typeof data === 'string') {
             res.status(400).json({
                 status: STATUS.ERROR,
-                message: data
+                message: data,
             })
         } else {
             res.status(200).json({
                 status: STATUS.UPDATE,
-                data})
+                data,
+            })
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -72,12 +75,9 @@ export const updateProfile = async (req, res) => {
 
 export const deleteProfile = async (req, res) => {
     try {
-        const data = await profileServices.deleteProfile(
-            req.session.user.id
-        )
+        const data = await profileServices.deleteProfile(req.session.user.id)
         if (typeof data === 'string') {
-            res.status(400).json({ status: STATUS.ERROR,
-                message: data })
+            res.status(400).json({ status: STATUS.ERROR, message: data })
         } else {
             res.status(200).json({
                 status: STATUS.DELETE,

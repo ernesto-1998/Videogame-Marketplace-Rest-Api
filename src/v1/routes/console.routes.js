@@ -11,10 +11,20 @@ router.get('/console-dictionary', consoleControllers.getConsoleDictionary)
 
 router.get('/', consoleControllers.getAllConsolesByUserId)
 router.get('/:id', validateIdMiddleware, consoleControllers.getConsoleById)
-router.post('/', keysValidation.console, consoleValidator.createConsoleValidation, consoleControllers.createConsole)
-router.patch('/:id', keysValidation.console, validateIdMiddleware, consoleValidator.updateConsoleValidation, consoleControllers.updateConsole)
+router.post(
+    '/',
+    keysValidation.console,
+    consoleValidator.createConsoleValidation,
+    consoleControllers.createConsole
+)
+router.patch(
+    '/:id',
+    keysValidation.console,
+    validateIdMiddleware,
+    consoleValidator.updateConsoleValidation,
+    consoleControllers.updateConsole
+)
 router.delete('/', consoleControllers.deleteAllConsolesByUserId)
 router.delete('/:id', validateIdMiddleware, consoleControllers.deleteConsole)
-
 
 export default router

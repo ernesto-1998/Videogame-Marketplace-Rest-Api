@@ -1,6 +1,10 @@
 import { body } from 'express-validator'
 
-export const createConsoleValidation = [
+export const createVideogameValidation = [
+    body('name', 'name null')
+        .exists()
+        .isString()
+        .withMessage('name must be a text'),
     body('console_dict_id', 'console_dict_id null')
         .exists()
         .isNumeric()
@@ -24,7 +28,11 @@ export const createConsoleValidation = [
     body('description', 'description must be a text').optional().isString(),
 ]
 
-export const updateConsoleValidation = [
+export const updateVideogameValidation = [
+    body('name', 'name null')
+        .optional()
+        .isString()
+        .withMessage('name must be text'),
     body('console_dict_id', 'console_dict_id null')
         .optional()
         .isNumeric()

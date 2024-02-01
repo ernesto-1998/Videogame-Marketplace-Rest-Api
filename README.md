@@ -21,6 +21,7 @@ Every entitie has CRUD functionality, USER, PROFILE, ADDRESS, CONSOLES, VIDEOGAM
 1. SERVER_PORT=
 
 ### These are for the database of the app, in this case we are using postgresql
+
 1. PGHOST=
 1. PGPORT=
 1. PGUSER=
@@ -28,10 +29,12 @@ Every entitie has CRUD functionality, USER, PROFILE, ADDRESS, CONSOLES, VIDEOGAM
 1. PGDATABASE="db_videogame_marketplace"
 
 ### This is info about the express session
+
 1. SESSION_NAME=
 1. SESSION_SECRET=
 
 ### These are for the database of the session, in this case we are using mongodb
+
 1. SESSION_DB_HOST=
 1. SESSION_DB_PORT=
 1. SESSION_DB_DATABASE=

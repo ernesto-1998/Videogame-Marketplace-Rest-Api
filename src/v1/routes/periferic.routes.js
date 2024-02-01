@@ -10,10 +10,24 @@ const router = Router()
 
 router.get('/', perifericControllers.getAllPerifericsByUserId)
 router.get('/:id', validateIdMiddleware, perifericControllers.getPerifericById)
-router.post('/', keysValidation.profile, perifericValidator.createPerifericValidation, perifericControllers.createPeriferic)
-router.patch('/:id', keysValidation.profile, validateIdMiddleware, perifericValidator.updatePerifericValidation, perifericControllers.updatePeriferic)
+router.post(
+    '/',
+    keysValidation.profile,
+    perifericValidator.createPerifericValidation,
+    perifericControllers.createPeriferic
+)
+router.patch(
+    '/:id',
+    keysValidation.profile,
+    validateIdMiddleware,
+    perifericValidator.updatePerifericValidation,
+    perifericControllers.updatePeriferic
+)
 router.delete('/', perifericControllers.deleteAllPerifericsByUserId)
-router.delete('/:id', validateIdMiddleware, perifericControllers.deletePeriferic)
-
+router.delete(
+    '/:id',
+    validateIdMiddleware,
+    perifericControllers.deletePeriferic
+)
 
 export default router

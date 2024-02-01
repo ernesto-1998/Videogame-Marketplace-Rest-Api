@@ -8,8 +8,7 @@ export const getPerifericById = async (req, res) => {
         const data = await perifericServices.getPerifericById(req.params.id)
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
-        }
-        else {
+        } else {
             res.status(200).json({
                 status: STATUS.GET,
                 data,
@@ -22,11 +21,12 @@ export const getPerifericById = async (req, res) => {
 
 export const getAllPerifericsByUserId = async (req, res) => {
     try {
-        const data = await perifericServices.getAllConsolesByUserId(req.session.user.id)
+        const data = await perifericServices.getAllConsolesByUserId(
+            req.session.user.id
+        )
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
-        }
-        else {
+        } else {
             res.status(200).json({
                 status: STATUS.GETS,
                 data,
@@ -43,11 +43,13 @@ export const createPeriferic = async (req, res) => {
         res.status(400).send(errorMap(errors))
     } else {
         try {
-            const data = await perifericServices.createPeriferic(req.body, req.session.user.id)
+            const data = await perifericServices.createPeriferic(
+                req.body,
+                req.session.user.id
+            )
             if (data.rows.length === 0) {
                 res.status(404).json({ status: STATUS.NO_CONTENT })
-            }
-            else {
+            } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
                     data,
@@ -65,11 +67,13 @@ export const updatePeriferic = async (req, res) => {
         res.status(400).send(errorMap(errors))
     } else {
         try {
-            const data = await perifericServices.updatePeriferic(req.body, req.params['id'])
+            const data = await perifericServices.updatePeriferic(
+                req.body,
+                req.params['id']
+            )
             if (data.rows.length === 0) {
                 res.status(404).json({ status: STATUS.NO_CONTENT })
-            }
-            else {
+            } else {
                 res.status(200).json({
                     status: STATUS.UPDATE,
                     data,
@@ -83,15 +87,17 @@ export const updatePeriferic = async (req, res) => {
 
 export const deleteAllPerifericsByUserId = async (req, res) => {
     try {
-       const data = await perifericServices.deleteAllConsolesByUserId(req.session.user.id) 
-       if (data.rows.length === 0) {
-        res.status(404).json({ status: STATUS.NO_CONTENT })
-       }
-       else {
-        res.status(200).json({
-            status: STATUS.DELETES,
-            data,})
-       }
+        const data = await perifericServices.deleteAllConsolesByUserId(
+            req.session.user.id
+        )
+        if (data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
+        } else {
+            res.status(200).json({
+                status: STATUS.DELETES,
+                data,
+            })
+        }
     } catch (error) {
         res.status(500).json(error.message)
     }
@@ -99,16 +105,15 @@ export const deleteAllPerifericsByUserId = async (req, res) => {
 
 export const deletePeriferic = async (req, res) => {
     try {
-       const data = await perifericServices.deletePeriferic(req.params['id']) 
-       if (data.rows.length === 0) {
-        res.status(404).json({ status: STATUS.NO_CONTENT })
-       }
-       else {
-        res.status(200).json({
-            status: STATUS.DELETE,
-            data,
-        })
-       }
+        const data = await perifericServices.deletePeriferic(req.params['id'])
+        if (data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
+        } else {
+            res.status(200).json({
+                status: STATUS.DELETE,
+                data,
+            })
+        }
     } catch (error) {
         res.status(500).json(error.message)
     }

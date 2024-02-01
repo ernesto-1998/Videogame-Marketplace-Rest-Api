@@ -1,14 +1,13 @@
 import pg from '../db/connection.js'
 import { hashPassword, comparePassword } from '../utils/password-utils.js'
 import * as dq from '../utils/create-dynamic-query.js'
-
-const TABLE_SCHEMA_NAME = 'public.user'
+import TABLE_SCHEMA_NAME from '../enums/entities-keys.js'
 
 export const getUserRoles = async () => {
     try {
-        const query = dq.createGetQuery('public.user_role')
-        const user_roles = await pg.query(query)
-        return user_roles
+        const query = dq.createGetQuery(TABLE_SCHEMA_NAME.USER_ROLE)
+        const data = await pg.query(query)
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -16,9 +15,9 @@ export const getUserRoles = async () => {
 
 export const getUserByEmail = async (email) => {
     try {
-        const query = dq.createGetByEmailQuery(TABLE_SCHEMA_NAME)
-        const user = await pg.query(query, [email])
-        return user
+        const query = dq.createGetByEmailQuery(TABLE_SCHEMA_NAME.USER)
+        const data = await pg.query(query, [email])
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -26,9 +25,9 @@ export const getUserByEmail = async (email) => {
 
 export const getAllUsers = async () => {
     try {
-        const query = dq.createGetQuery(TABLE_SCHEMA_NAME)
-        const users = await pg.query(query)
-        return users
+        const query = dq.createGetQuery(TABLE_SCHEMA_NAME.USER)
+        const data = await pg.query(query)
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -44,10 +43,13 @@ export const createUser = async (body) => {
         password = await hashPassword(password)
         const mapBody = new Map(Object.entries(body))
         mapBody.set('password', password)
-        const query = dq.createInsertQuery([...mapBody.keys()], TABLE_SCHEMA_NAME)
+        const query = dq.createInsertQuery(
+            [...mapBody.keys()],
+            TABLE_SCHEMA_NAME.USER
+        )
         const values = [...mapBody.values()]
-        const user_created = await pg.query(query, values)
-        return user_created
+        const data = await pg.query(query, values)
+        return data
     } catch (error) {
         throw new Error(error)
     }
@@ -55,15 +57,15 @@ export const createUser = async (body) => {
 
 export const loginUser = async (body) => {
     let { email, password } = body
-    let user = await getUserByEmail(email)
-    if (user.rows.length === 0) {
+    let data = await getUserByEmail(email)
+    if (data.rows.length === 0) {
         return 'Email or password incorrect'
     } else {
-        const isValid = await comparePassword(password, user.rows[0].password)
+        const isValid = await comparePassword(password, data.rows[0].password)
         if (!isValid) {
             return 'Wrong password...'
         } else {
-            return user
+            return data
         }
     }
 }

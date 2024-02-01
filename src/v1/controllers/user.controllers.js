@@ -9,11 +9,11 @@ export const getUserRoles = async (req, res) => {
         const data = await userServices.getUserRoles()
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
-        }
-        else {
+        } else {
             res.status(200).json({
                 status: STATUS.GETS,
-                data})
+                data,
+            })
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -25,11 +25,11 @@ export const getAllUsers = async (req, res) => {
         const data = await userServices.getAllUsers()
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
-        }
-        else {
+        } else {
             res.status(200).json({
                 status: STATUS.GETS,
-                data})
+                data,
+            })
         }
     } catch (error) {
         res.status(500).json(error.message)
@@ -46,12 +46,13 @@ export const signupController = async (req, res) => {
             if (typeof data === 'string') {
                 res.status(400).json({
                     status: STATUS.ERROR,
-                    message: data
+                    message: data,
                 })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
-                    data})
+                    data,
+                })
             }
         } catch (error) {
             res.status(500).json(error.message)
@@ -74,12 +75,10 @@ export const loginController = async (req, res) => {
             } else {
                 req.session.regenerate((err) => {
                     if (err) {
-                        return (
-                            res.json({
-                                status: STATUS.ERROR,
-                                error: err,
-                            })
-                        )
+                        return res.json({
+                            status: STATUS.ERROR,
+                            error: err,
+                        })
                     } else {
                         req.session.user = {
                             id: data.rows[0].id,
@@ -100,7 +99,7 @@ export const loginController = async (req, res) => {
         } catch (error) {
             res.status(500).json({
                 status: STATUS.ERROR,
-                message: error.message
+                message: error.message,
             })
         }
     }

@@ -40,9 +40,6 @@ router.get(
     userControllers.logoutController
 )
 
-router.patch(
-    '/update',
-
-)
+router.patch('/update')
 
 export default router
