@@ -1,4 +1,6 @@
 import { body } from 'express-validator'
+import pg from '../db/connection.js'
+import STATUS from '../enums/status-keys.js'
 
 export const createVideogameValidation = [
     body('name', 'name null')
@@ -26,6 +28,7 @@ export const createVideogameValidation = [
         .isString()
         .withMessage('image must be the public url where the image is stored'),
     body('description', 'description must be a text').optional().isString(),
+    body('genders', 'genders null').exists().isArray().withMessage('genders must be an array'),
 ]
 
 export const updateVideogameValidation = [
@@ -54,4 +57,29 @@ export const updateVideogameValidation = [
         .isString()
         .withMessage('image must be the public url where the image is stored'),
     body('description', 'description must be a text').optional().isString(),
+    body('genders', 'genders null').optional().isArray().withMessage('genders must be an array'),
 ]
+
+export const validateGendersExists = (req, res, next) => {
+    if(req.body.genders) {
+        console.log(req.body.genders)
+        const message = 'There is one or more gender that does not exists'
+        const validGenders = pg.genders.rows
+        let hasDifferentValue = []
+        for(let gender of req.body.genders) {
+            console.log(validGenders)
+            hasDifferentValue.push(validGenders.some(gender_id => gender_id.id === gender))
+        }
+        if (hasDifferentValue.some((value) => value === false)) {
+            res.status(400).json({
+                status: STATUS.ERROR,
+                message,
+            })
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+}
+

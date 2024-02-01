@@ -20,7 +20,7 @@ app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/user', authValidator.isUserActive, profileRoutes)
 app.use('/api/v1/console', authValidator.isUserActive, consoleRoutes)
 app.use('/api/v1/videogame', authValidator.isUserActive, videogameRoutes)
-app.use('/api/v1/videogame', authValidator.isUserActive, genderRoutes)
+app.use('/api/v1/gender', authValidator.isUserActive, genderRoutes)
 app.use('/api/v1/periferic', authValidator.isUserActive, perifericRoutes)
 
 export default app

@@ -8,7 +8,7 @@ const STATUS = {
     ERROR: 'ERROR',
     LOGIN: 'LOGIN successfully',
     LOGOUT: 'LOGOUT successfully',
-    NO_CONTENT: 'ERROR no content',
+    NO_CONTENT: 'NO content',
 }
 
 export default STATUS

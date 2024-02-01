@@ -12,13 +12,13 @@ router.get('/', perifericControllers.getAllPerifericsByUserId)
 router.get('/:id', validateIdMiddleware, perifericControllers.getPerifericById)
 router.post(
     '/',
-    keysValidation.profile,
+    keysValidation.periferic,
     perifericValidator.createPerifericValidation,
     perifericControllers.createPeriferic
 )
 router.patch(
     '/:id',
-    keysValidation.profile,
+    keysValidation.periferic,
     validateIdMiddleware,
     perifericValidator.updatePerifericValidation,
     perifericControllers.updatePeriferic

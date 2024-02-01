@@ -62,5 +62,4 @@ export const createDeleteAllByUserIdQuery = (table) => {
 export const createDeleteByIdQuery = (table, nameId) => {
     return `DELETE FROM ${table} WHERE ${nameId} = $1 RETURNING *`
 }
-
 ;('INSERT INTO profile (user_id, name, lastname, date_birth, profile_pic, contact_email, contact_number) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *')

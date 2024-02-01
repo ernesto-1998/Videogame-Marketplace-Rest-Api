@@ -25,6 +25,7 @@ export const entitieKeys = {
         'price',
         'image',
         'description',
+        'genders',
     ],
     periferic: [
         'console_dict_id',
