@@ -1,11 +1,16 @@
 import { body } from 'express-validator'
+import { validateIdExists } from '../../utils/entities-validator.js'
+import pg from '../../db/connection.js'
 
 export const createPerifericValidation = [
     body('name', 'null').exists().isString().withMessage('name must be a text'),
     body('console_dict_id', 'console_dict_id null')
         .exists()
         .isNumeric()
-        .withMessage('console_dict_id must be an integer'),
+        .withMessage('console_dict_id must be an integer')
+        .custom((id) => {
+            return validateIdExists(pg.console_dictionary.rows, id)
+        }).withMessage('Console dict does not exists...'),
     body('is_used', 'is_used null')
         .exists()
         .isBoolean()
@@ -30,7 +35,10 @@ export const updatePerifericValidation = [
     body('console_dict_id', 'console_dict_id null')
         .optional()
         .isNumeric()
-        .withMessage('console_dict_id must be an integer'),
+        .withMessage('console_dict_id must be an integer')
+        .custom((id) => {
+            return validateIdExists(pg.console_dictionary.rows, id)
+        }).withMessage('Console dict does not exists...'),
     body('is_used', 'is_used null')
         .optional()
         .isBoolean()

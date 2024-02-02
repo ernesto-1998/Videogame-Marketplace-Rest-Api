@@ -1,6 +1,6 @@
 import { body } from 'express-validator'
-import { validateUserRole } from '../utils/entities-validator.js'
-import pg from '../db/connection.js'
+import { validateIdExists } from '../../utils/entities-validator.js'
+import pg from '../../db/connection.js'
 
 export const signupValidation = [
     body('user_role_id', 'User role null')
@@ -8,7 +8,7 @@ export const signupValidation = [
         .isNumeric()
         .withMessage('Must be a numeric integer value')
         .custom((id) => {
-            return validateUserRole(pg.user_roles.rows, id)
+            return validateIdExists(pg.user_roles.rows, id)
         })
         .withMessage('User role does not exists...'),
     body('email', 'Email null')

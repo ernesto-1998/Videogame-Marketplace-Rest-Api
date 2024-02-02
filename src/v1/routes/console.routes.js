@@ -1,30 +1,24 @@
 import { Router } from 'express'
-
-import { validateIdMiddleware } from '../middlewares/general/id.validation.js'
-import * as consoleValidator from '../middlewares/console.validation.js'
+import consoleValidate from '../middlewares/console/index.js'
 import * as consoleControllers from '../controllers/console.controllers.js'
-import { keysValidation } from '../middlewares/general/keysEntityValidation.js'
 
 const router = Router()
 
 router.get('/console-dictionary', consoleControllers.getConsoleDictionary)
 
 router.get('/', consoleControllers.getAllConsolesByUserId)
-router.get('/:id', validateIdMiddleware, consoleControllers.getConsoleById)
+router.get('/:id', ...consoleValidate.getId, consoleControllers.getConsoleById)
 router.post(
     '/',
-    keysValidation.console,
-    consoleValidator.createConsoleValidation,
+    ...consoleValidate.post,
     consoleControllers.createConsole
 )
 router.patch(
     '/:id',
-    keysValidation.console,
-    validateIdMiddleware,
-    consoleValidator.updateConsoleValidation,
+    ...consoleValidate.patch,
     consoleControllers.updateConsole
 )
 router.delete('/', consoleControllers.deleteAllConsolesByUserId)
-router.delete('/:id', validateIdMiddleware, consoleControllers.deleteConsole)
+router.delete('/:id', ...consoleValidate.deleteId, consoleControllers.deleteConsole)
 
 export default router

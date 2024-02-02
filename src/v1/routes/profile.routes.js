@@ -1,22 +1,19 @@
 import { Router } from 'express'
 import * as profileControllers from '../controllers/profile.controllers.js'
-import * as profileValidator from '../middlewares/profile.validation.js'
-import * as dateValidator from '../middlewares/general/date.validation.js'
-import { keysValidation } from '../middlewares/general/keysEntityValidation.js'
+
+import profileValidate from '../middlewares/profile/index.js'
 
 const router = Router()
 
 router.get('/profile', profileControllers.getProfileByUserId)
 router.post(
     '/profile',
-    keysValidation.profile,
-    dateValidator.validateDateMiddleware,
-    profileValidator.createProfileValidation,
+    ...profileValidate.post,
     profileControllers.createProfile
 )
 router.patch(
     '/profile',
-    keysValidation.profile,
+    ...profileValidate.patch,
     profileControllers.updateProfile
 )
 router.delete('/profile', profileControllers.deleteProfile)

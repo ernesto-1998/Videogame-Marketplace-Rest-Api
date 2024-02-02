@@ -1,10 +1,19 @@
 import { body } from 'express-validator'
+import { validateIdExists } from '../../utils/entities-validator.js'
+import pg from '../../db/connection.js'
 
-export const createConsoleValidation = [
+export const createVideogameValidation = [
+    body('name', 'name null')
+        .exists()
+        .isString()
+        .withMessage('name must be a text'),
     body('console_dict_id', 'console_dict_id null')
         .exists()
         .isNumeric()
-        .withMessage('console_dict_id must be an integer'),
+        .withMessage('console_dict_id must be an integer')
+        .custom((id) => {
+            return validateIdExists(pg.console_dictionary.rows, id)
+        }).withMessage('Console dict does not exists...'),
     body('is_used', 'is_used null')
         .exists()
         .isBoolean()
@@ -22,13 +31,21 @@ export const createConsoleValidation = [
         .isString()
         .withMessage('image must be the public url where the image is stored'),
     body('description', 'description must be a text').optional().isString(),
+    body('genders', 'genders null').exists(),
 ]
 
-export const updateConsoleValidation = [
+export const updateVideogameValidation = [
+    body('name', 'name null')
+        .optional()
+        .isString()
+        .withMessage('name must be text'),
     body('console_dict_id', 'console_dict_id null')
         .optional()
         .isNumeric()
-        .withMessage('console_dict_id must be an integer'),
+        .withMessage('console_dict_id must be an integer')
+        .custom((id) => {
+            return validateIdExists(pg.console_dictionary.rows, id)
+        }).withMessage('Console dict does not exists...'),
     body('is_used', 'is_used null')
         .optional()
         .isBoolean()
@@ -46,4 +63,7 @@ export const updateConsoleValidation = [
         .isString()
         .withMessage('image must be the public url where the image is stored'),
     body('description', 'description must be a text').optional().isString(),
+    body('genders', 'genders null').optional(),
 ]
+
+

@@ -1,42 +1,36 @@
 import { Router } from 'express'
 import * as userControllers from '../controllers/user.controllers.js'
-import * as userValidation from '../middlewares/user.validation.js'
-import * as authValidation from '../middlewares/general/auth.validation.js'
-import { keysValidation } from '../middlewares/general/keysEntityValidation.js'
+
+import userValidate from '../middlewares/user/index.js'
 
 const router = Router()
 
 router.get(
     '/user-role',
-    authValidation.isUserActive,
-    authValidation.isUserAdmin,
+    ...userValidate.getUserRole,
     userControllers.getUserRoles
 )
 
 router.get(
     '/user-all',
-    authValidation.isUserActive,
-    authValidation.isUserAdmin,
+    ...userValidate.getUserAll,
     userControllers.getAllUsers
 )
 
 router.post(
     '/signup',
-    keysValidation.user,
-    userValidation.signupValidation,
-    authValidation.isUserInactive,
+    ...userValidate.postSignup,
     userControllers.signupController
 )
 router.post(
     '/login',
-    userValidation.loginValidation,
-    // authValidation.isUserInactive,
+    userValidate.postLogin,
     userControllers.loginController
 )
 
 router.get(
     '/logout',
-    authValidation.isUserActive,
+    ...userValidate.getLogout,
     userControllers.logoutController
 )
 

@@ -1,34 +1,24 @@
 import { Router } from 'express'
 
-import { validateIdMiddleware } from '../middlewares/general/id.validation.js'
-import { validateGenderArrayMiddleware } from '../middlewares/general/gender.validation.js'
+import videogameValidate from '../middlewares/videogame/index.js'
 
-import * as videogameValidator from '../middlewares/videogame.validation.js'
 import * as videogameControllers from '../controllers/videogame.controllers.js'
-import { keysValidation } from '../middlewares/general/keysEntityValidation.js'
 
 const router = Router()
 
 router.get('/', videogameControllers.getAllVideogamesByUserId)
-router.get('/:id', validateIdMiddleware, videogameControllers.getVideogameById)
+router.get('/:id', ...videogameValidate.getId, videogameControllers.getVideogameById)
 router.post(
     '/',
-    keysValidation.videogame,
-    videogameValidator.createVideogameValidation,
-    validateGenderArrayMiddleware,
-    videogameValidator.validateGendersExists,
+    ...videogameValidate.post,
     videogameControllers.createVideogame
 )
 router.patch(
     '/:id',
-    keysValidation.videogame,
-    validateIdMiddleware,
-    videogameValidator.updateVideogameValidation,
-    validateGenderArrayMiddleware,
-    videogameValidator.validateGendersExists,
+    ...videogameValidate.patch,
     videogameControllers.updateVideogame
 )
 router.delete('/', videogameControllers.deleteAllVideogamesByUserId)
-router.delete('/:id', validateIdMiddleware, videogameControllers.deleteVideogame)
+router.delete('/:id', ...videogameValidate.deleteId, videogameControllers.deleteVideogame)
 
 export default router

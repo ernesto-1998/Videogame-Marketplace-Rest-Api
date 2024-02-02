@@ -63,7 +63,7 @@ export const createConsole = async (req, res) => {
                 req.body,
                 req.session.user.id
             )
-            if (data) {
+            if (data.rows.length === 0) {
                 res.status(404).json({ status: STATUS.NO_CONTENT })
             } else {
                 res.status(200).json({
