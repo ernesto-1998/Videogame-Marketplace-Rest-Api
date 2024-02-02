@@ -48,7 +48,7 @@ export const createPeriferic = async (req, res) => {
                 req.session.user.id
             )
             if (data.rows.length === 0) {
-                res.status(404).json({ status: STATUS.NO_CONTENT })
+                res.status(404).json({ status: STATUS.ERROR })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
@@ -72,7 +72,7 @@ export const updatePeriferic = async (req, res) => {
                 req.params['id']
             )
             if (data.rows.length === 0) {
-                res.status(404).json({ status: STATUS.NO_CONTENT })
+                res.status(404).json({ status: STATUS.ERROR })
             } else {
                 res.status(200).json({
                     status: STATUS.UPDATE,
@@ -91,7 +91,7 @@ export const deleteAllPerifericsByUserId = async (req, res) => {
             req.session.user.id
         )
         if (data.rows.length === 0) {
-            res.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.ERROR })
         } else {
             res.status(200).json({
                 status: STATUS.DELETES,
@@ -107,7 +107,7 @@ export const deletePeriferic = async (req, res) => {
     try {
         const data = await perifericServices.deletePeriferic(req.params['id'])
         if (data.rows.length === 0) {
-            res.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.ERROR })
         } else {
             res.status(200).json({
                 status: STATUS.DELETE,

@@ -38,7 +38,7 @@ export const createUser = async (body) => {
         let { email, password } = body
         const isEmailUsed = await getUserByEmail(email)
         if (isEmailUsed.rows.length > 0) {
-            return 'Email is already registered...'
+            return isEmailUsed
         }
         password = await hashPassword(password)
         const mapBody = new Map(Object.entries(body))
@@ -59,7 +59,7 @@ export const loginUser = async (body) => {
     let { email, password } = body
     let data = await getUserByEmail(email)
     if (data.rows.length === 0) {
-        return 'Email or password incorrect'
+        return data
     } else {
         const isValid = await comparePassword(password, data.rows[0].password)
         if (!isValid) {

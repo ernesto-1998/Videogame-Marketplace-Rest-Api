@@ -43,11 +43,8 @@ export const signupController = async (req, res) => {
     } else {
         try {
             const data = await userServices.createUser(req.body)
-            if (typeof data === 'string') {
-                res.status(400).json({
-                    status: STATUS.ERROR,
-                    message: data,
-                })
+            if (data.rows.length === 0) {
+                res.status(404).json({ status: STATUS.ERROR, message: 'This email is already registered...' })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
@@ -67,11 +64,8 @@ export const loginController = async (req, res) => {
     } else {
         try {
             const data = await userServices.loginUser(req.body)
-            if (typeof user === 'string') {
-                res.status(400).json({
-                    status: STATUS.ERROR,
-                    message: data,
-                })
+            if (data.rows.length === 0) {
+                res.status(404).json({ status: STATUS.ERROR, message: 'Email or password incorrect' })
             } else {
                 req.session.regenerate((err) => {
                     if (err) {

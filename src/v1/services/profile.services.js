@@ -21,7 +21,7 @@ export const createProfile = async (body, userId) => {
     try {
         const hasUserProfile = await getProfileByUserId(userId)
         if (hasUserProfile.rows.length > 0) {
-            return 'This user already has a profile...'
+            return hasUserProfile
         }
         const mapBody = new Map(Object.entries(body))
         mapBody.set('user_id', userId)
@@ -41,7 +41,7 @@ export const updateProfile = async (body, userId) => {
     try {
         const hasUserProfile = await getProfileByUserId(userId)
         if (hasUserProfile.rows.length === 0) {
-            return 'This user does not have a profile...'
+            return hasUserProfile
         } else {
             const mapBody = new Map(Object.entries(body))
             const query = createUpdateQuery(
@@ -62,7 +62,7 @@ export const deleteProfile = async (userId) => {
     try {
         const hasUserProfile = await getProfileByUserId(userId)
         if (hasUserProfile.rows.length === 0) {
-            return 'This user does not have a profile...'
+            return hasUserProfile
         }
         const query = createDeleteByIdQuery(
             TABLE_SCHEMA_NAME.PROFILE,

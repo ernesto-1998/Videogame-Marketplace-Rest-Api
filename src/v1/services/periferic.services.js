@@ -49,7 +49,7 @@ export const updatePeriferic = async (body, perifericId) => {
     try {
         const hasPeriferics = await getPerifericById(perifericId)
         if (hasPeriferics.rows.length === 0) {
-            return 'This periferic does not exists...'
+            hasPeriferics
         } else {
             const mapBody = new Map(Object.entries(body))
             const query = createUpdateQuery(
@@ -70,7 +70,7 @@ export const deletePeriferic = async (perifericId) => {
     try {
         const hasPeriferics = await getPerifericById(perifericId)
         if (hasPeriferics.rows.length === 0) {
-            return 'This periferic does not exists...'
+            hasPeriferics
         }
         const query = createDeleteByIdQuery(TABLE_SCHEMA_NAME.PERIFERIC, 'id')
         const data = await pg.query(query, [perifericId])
@@ -84,7 +84,7 @@ export const deleteAllCPerifericsByUserId = async (userId) => {
     try {
         const hasPeriferics = await getAllPerifericByUserId(userId)
         if (hasPeriferics.rows.length === 0) {
-            return 'This user does not have a periferics registered...'
+            hasPeriferics
         }
         const query = createDeleteAllByUserIdQuery(TABLE_SCHEMA_NAME.PERIFERIC)
         const data = await pg.query(query, [userId])

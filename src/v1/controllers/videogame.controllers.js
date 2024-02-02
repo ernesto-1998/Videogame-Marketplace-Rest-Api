@@ -50,7 +50,7 @@ export const createVideogame = async (req, res) => {
                 req.session.user.id
             )
             if (data.rows.length === 0) {
-                res.status(404).json({ status: STATUS.NO_CONTENT })
+                res.status(404).json({ status: STATUS.ERROR })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
@@ -74,7 +74,7 @@ export const updateVideogame = async (req, res) => {
                 req.params['id']
             )
             if (data.rows.length === 0) {
-                res.status(404).json({ status: STATUS.NO_CONTENT })
+                res.status(404).json({ status: STATUS.ERROR })
             } else {
                 res.status(200).json({
                     status: STATUS.UPDATE,
@@ -93,7 +93,7 @@ export const deleteAllVideogamesByUserId = async (req, res) => {
             req.session.user.id
         )
         if (data.rows.length === 0) {
-            res.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.ERROR })
         } else {
             res.status(200).json({
                 status: STATUS.DELETES,
@@ -109,7 +109,7 @@ export const deleteVideogame = async (req, res) => {
     try {
         const data = await videogameServices.deleteVideogame(req.params['id'])
         if (data.rows.length === 0) {
-            res.status(404).json({ status: STATUS.NO_CONTENT })
+            res.status(404).json({ status: STATUS.ERROR })
         } else {
             res.status(200).json({
                 status: STATUS.DELETE,

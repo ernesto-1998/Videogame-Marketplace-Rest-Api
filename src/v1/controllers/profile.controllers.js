@@ -34,11 +34,8 @@ export const createProfile = async (req, res) => {
                 req.body,
                 req.session.user.id
             )
-            if (typeof data === 'string') {
-                res.status(400).json({
-                    status: STATUS.ERROR,
-                    message: data,
-                })
+            if (data.rows.length === 0) {
+                res.status(404).json({ status: STATUS.NO_CONTENT })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
@@ -57,11 +54,8 @@ export const updateProfile = async (req, res) => {
             req.body,
             req.session.user.id
         )
-        if (typeof data === 'string') {
-            res.status(400).json({
-                status: STATUS.ERROR,
-                message: data,
-            })
+        if (data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
         } else {
             res.status(200).json({
                 status: STATUS.UPDATE,
@@ -76,8 +70,8 @@ export const updateProfile = async (req, res) => {
 export const deleteProfile = async (req, res) => {
     try {
         const data = await profileServices.deleteProfile(req.session.user.id)
-        if (typeof data === 'string') {
-            res.status(400).json({ status: STATUS.ERROR, message: data })
+        if (data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
         } else {
             res.status(200).json({
                 status: STATUS.DELETE,

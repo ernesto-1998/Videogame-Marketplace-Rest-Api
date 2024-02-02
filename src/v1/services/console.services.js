@@ -60,7 +60,7 @@ export const updateConsole = async (body, consoleId) => {
     try {
         const hasConsole = await getConsoleById(consoleId)
         if (hasConsole.rows.length === 0) {
-            return 'This console does not exists...'
+            return hasConsole
         } else {
             const mapBody = new Map(Object.entries(body))
             const query = createUpdateQuery(
@@ -81,7 +81,7 @@ export const deleteConsole = async (consoleId) => {
     try {
         const hasConsole = await getConsoleById(consoleId)
         if (hasConsole.rows.length === 0) {
-            return 'This console does not exists...'
+            return hasConsole
         }
         const query = createDeleteByIdQuery(TABLE_SCHEMA_NAME.CONSOLE, 'id')
         const data = await pg.query(query, [consoleId])
@@ -95,7 +95,7 @@ export const deleteAllConsolesByUserId = async (userId) => {
     try {
         const hasConsoles = await getAllConsolesByUserId(userId)
         if (hasConsoles.rows.length === 0) {
-            return 'This user does not have a consoles registered...'
+            return hasConsoles
         }
         const query = createDeleteAllByUserIdQuery(TABLE_SCHEMA_NAME.CONSOLE)
         const data = await pg.query(query, [userId])
