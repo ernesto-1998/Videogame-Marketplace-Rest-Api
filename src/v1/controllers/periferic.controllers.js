@@ -21,7 +21,7 @@ export const getPerifericById = async (req, res) => {
 
 export const getAllPerifericsByUserId = async (req, res) => {
     try {
-        const data = await perifericServices.getAllConsolesByUserId(
+        const data = await perifericServices.getAllPerifericsByUserId(
             req.session.user.id
         )
         if (data.rows.length === 0) {
@@ -87,7 +87,7 @@ export const updatePeriferic = async (req, res) => {
 
 export const deleteAllPerifericsByUserId = async (req, res) => {
     try {
-        const data = await perifericServices.deleteAllConsolesByUserId(
+        const data = await perifericServices.deleteAllPerifericsByUserId(
             req.session.user.id
         )
         if (data.rows.length === 0) {

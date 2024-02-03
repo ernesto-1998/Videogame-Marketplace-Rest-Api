@@ -25,7 +25,6 @@ export const validateGendersExists = (req, res, next) => {
         const validGenders = pg.genders.rows
         let hasDifferentValue = []
         for(let gender of req.body.genders) {
-            console.log(validGenders)
             hasDifferentValue.push(validGenders.some(gender_id => gender_id.id === gender))
         }
         if (hasDifferentValue.some((value) => value === false)) {

@@ -1,5 +1,5 @@
 export const entitieKeys = {
-    user: ['email', 'password'],
+    user: ['email', 'password', 'user_role_id'],
     profile: [
         'name',
         'lastname',

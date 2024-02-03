@@ -585,7 +585,7 @@ CREATE TRIGGER update_user_task_updated_on BEFORE UPDATE ON public.videogame FOR
 --
 
 ALTER TABLE ONLY public.address
-    ADD CONSTRAINT fk_address_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id);
+    ADD CONSTRAINT fk_address_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -593,7 +593,7 @@ ALTER TABLE ONLY public.address
 --
 
 ALTER TABLE ONLY public.console
-    ADD CONSTRAINT fk_console_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id);
+    ADD CONSTRAINT fk_console_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -601,7 +601,7 @@ ALTER TABLE ONLY public.console
 --
 
 ALTER TABLE ONLY public.console
-    ADD CONSTRAINT fk_console_has_name_dict FOREIGN KEY (console_dict_id) REFERENCES public.console_dictionary(id);
+    ADD CONSTRAINT fk_console_has_name_dict FOREIGN KEY (console_dict_id) REFERENCES public.console_dictionary(id) ON DELETE CASCADE;
 
 
 --
@@ -609,7 +609,7 @@ ALTER TABLE ONLY public.console
 --
 
 ALTER TABLE ONLY public.videogame_gender
-    ADD CONSTRAINT fk_gender_belongs_videogame FOREIGN KEY (gender_id) REFERENCES public.gender(id);
+    ADD CONSTRAINT fk_gender_belongs_videogame FOREIGN KEY (gender_id) REFERENCES public.gender(id) ON DELETE CASCADE;
 
 
 --
@@ -617,7 +617,7 @@ ALTER TABLE ONLY public.videogame_gender
 --
 
 ALTER TABLE ONLY public.periferic
-    ADD CONSTRAINT fk_periferic_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id);
+    ADD CONSTRAINT fk_periferic_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -625,7 +625,7 @@ ALTER TABLE ONLY public.periferic
 --
 
 ALTER TABLE ONLY public.periferic
-    ADD CONSTRAINT fk_periferic_name_console_dict FOREIGN KEY (console_dict_id) REFERENCES public.console_dictionary(id);
+    ADD CONSTRAINT fk_periferic_name_console_dict FOREIGN KEY (console_dict_id) REFERENCES public.console_dictionary(id) ON DELETE CASCADE;
 
 
 --
@@ -633,7 +633,7 @@ ALTER TABLE ONLY public.periferic
 --
 
 ALTER TABLE ONLY public.profile
-    ADD CONSTRAINT fk_profile_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id) NOT VALID;
+    ADD CONSTRAINT fk_profile_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -641,7 +641,7 @@ ALTER TABLE ONLY public.profile
 --
 
 ALTER TABLE ONLY public."user"
-    ADD CONSTRAINT fk_user_has_role FOREIGN KEY (user_role_id) REFERENCES public.user_role(id);
+    ADD CONSTRAINT fk_user_has_role FOREIGN KEY (user_role_id) REFERENCES public.user_role(id) ON DELETE CASCADE;
 
 
 --
@@ -649,7 +649,7 @@ ALTER TABLE ONLY public."user"
 --
 
 ALTER TABLE ONLY public.videogame
-    ADD CONSTRAINT fk_videogame_belongs_console_dict FOREIGN KEY (console_dict_id) REFERENCES public.console_dictionary(id);
+    ADD CONSTRAINT fk_videogame_belongs_console_dict FOREIGN KEY (console_dict_id) REFERENCES public.console_dictionary(id) ON DELETE CASCADE;
 
 
 --
@@ -657,7 +657,7 @@ ALTER TABLE ONLY public.videogame
 --
 
 ALTER TABLE ONLY public.videogame
-    ADD CONSTRAINT fk_videogame_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id);
+    ADD CONSTRAINT fk_videogame_belongs_user FOREIGN KEY (user_id) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 
 --
@@ -665,7 +665,7 @@ ALTER TABLE ONLY public.videogame
 --
 
 ALTER TABLE ONLY public.videogame_gender
-    ADD CONSTRAINT fk_videogame_has_gender FOREIGN KEY (videogame_id) REFERENCES public.videogame(id);
+    ADD CONSTRAINT fk_videogame_has_gender FOREIGN KEY (videogame_id) REFERENCES public.videogame(id) ON DELETE CASCADE;
 
 --Populate catalog table console dictionary
 INSERT INTO public.console_dictionary (name, type) VALUES

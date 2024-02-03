@@ -19,7 +19,7 @@ export const getPerifericById = async (perifericId) => {
     }
 }
 
-export const getAllPerifericByUserId = async (userId) => {
+export const getAllPerifericsByUserId = async (userId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME.PERIFERIC, userId)
         const data = await pg.query(query, [userId])
@@ -80,9 +80,9 @@ export const deletePeriferic = async (perifericId) => {
     }
 }
 
-export const deleteAllCPerifericsByUserId = async (userId) => {
+export const deleteAllPerifericsByUserId = async (userId) => {
     try {
-        const hasPeriferics = await getAllPerifericByUserId(userId)
+        const hasPeriferics = await getAllPerifericsByUserId(userId)
         if (hasPeriferics.rows.length === 0) {
             hasPeriferics
         }
