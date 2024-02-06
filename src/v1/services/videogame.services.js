@@ -7,14 +7,15 @@ import entitieKeys from '../keys/entities-keys.js'
 import {
     createDeleteAllByUserIdQuery,
     createDeleteByIdQuery,
-    createGetByIdQuery,
+    // createGetByIdQuery,
     createInsertQuery,
     createUpdateQuery,
 } from '../utils/create-dynamic-query.js'
 
 export const getVideogameById = async (videogameId) => {
     try {
-        const query = createGetByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME, 'id')
+        // const query = createGetByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME, 'id')
+        const query = "SELECT v.*, array_agg(g.id) AS gender_ids, array_agg(g.name) AS gender_names FROM videogame v LEFT JOIN videogame_gender vg ON v.id = vg.videogame_id LEFT JOIN gender g ON vg.gender_id = g.id WHERE v.id = $1 GROUP BY v.id;"
         const data = await pg.query(query, [videogameId])
         return data
     } catch (error) {
@@ -24,7 +25,8 @@ export const getVideogameById = async (videogameId) => {
 
 export const getAllVideogamesByUserId = async (userId) => {
     try {
-        const query = createGetByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME, userId)
+        // const query = createGetByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME, userId)
+        const query = "SELECT v.*, array_agg(g.id) AS gender_ids, array_agg(g.name) AS gender_names FROM videogame v LEFT JOIN videogame_gender vg ON v.id = vg.videogame_id LEFT JOIN gender g ON vg.gender_id = g.id WHERE v.user_id = $1 GROUP BY v.id;"
         const data = await pg.query(query, [userId])
         return data
     } catch (error) {
