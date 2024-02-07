@@ -21,7 +21,7 @@ export const getConsoleDictionary = async (req, res) => {
 
 export const getConsoleById = async (req, res) => {
     try {
-        const data = await consoleServices.getConsoleById(req.params.id)
+        const data = await consoleServices.getConsoleById(req.session.user.id ,req.params.id)
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
         } else {
@@ -84,6 +84,7 @@ export const updateConsole = async (req, res) => {
     } else {
         try {
             const data = await consoleServices.updateConsole(
+                req.session.user.id,
                 req.body,
                 req.params['id']
             )
@@ -121,7 +122,7 @@ export const deleteAllConsolesByUserId = async (req, res) => {
 
 export const deleteConsole = async (req, res) => {
     try {
-        const data = await consoleServices.deleteConsole(req.params['id'])
+        const data = await consoleServices.deleteConsole(req.session.user.id, req.params['id'])
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
         } else {

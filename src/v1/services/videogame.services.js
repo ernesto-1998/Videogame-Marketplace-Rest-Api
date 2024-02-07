@@ -2,21 +2,22 @@ import pg from '../db/connection.js'
 import { poolConnection } from '../db/connection.js'
 
 import TABLE_SCHEMA_NAME from '../enums/entities-keys.js'
-import entitieKeys from '../keys/entities-keys.js'
 
 import {
     createDeleteAllByUserIdQuery,
     createDeleteByIdQuery,
-    // createGetByIdQuery,
     createInsertQuery,
     createUpdateQuery,
 } from '../utils/create-dynamic-query.js'
+import isErrorThrown from '../utils/error-throw.js'
 
-export const getVideogameById = async (videogameId) => {
+export const getVideogameById = async (userId, videogameId) => {
     try {
-        // const query = createGetByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME, 'id')
         const query = "SELECT v.*, array_agg(g.id) AS gender_ids, array_agg(g.name) AS gender_names FROM videogame v LEFT JOIN videogame_gender vg ON v.id = vg.videogame_id LEFT JOIN gender g ON vg.gender_id = g.id WHERE v.id = $1 GROUP BY v.id;"
         const data = await pg.query(query, [videogameId])
+        if(data.rows.length > 0){
+            isErrorThrown(userId, data.rows[0]['user_id'], 'This videogame does not belong to this user')
+        }
         return data
     } catch (error) {
         throw new Error(error)
@@ -25,7 +26,6 @@ export const getVideogameById = async (videogameId) => {
 
 export const getAllVideogamesByUserId = async (userId) => {
     try {
-        // const query = createGetByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME, userId)
         const query = "SELECT v.*, array_agg(g.id) AS gender_ids, array_agg(g.name) AS gender_names FROM videogame v LEFT JOIN videogame_gender vg ON v.id = vg.videogame_id LEFT JOIN gender g ON vg.gender_id = g.id WHERE v.user_id = $1 GROUP BY v.id;"
         const data = await pg.query(query, [userId])
         return data
@@ -48,13 +48,8 @@ export const createVideogame = async (body, userId) => {
         const values = [...mapBody.values()]
         await cl.query('BEGIN')
         const data = await cl.query(query, values)
-        for (let gender of genders) {
-            const query2 = createInsertQuery(
-                [...entitieKeys.videogame_gender],
-                TABLE_SCHEMA_NAME.VIDEOGAME_GENDER
-            )
-            await cl.query(query2, [data.rows[0].id, gender])
-        }
+        const query2 = "INSERT INTO videogame_gender (videogame_id, gender_id) VALUES ($1, unnest($2::integer[])) ON CONFLICT DO NOTHING;"
+        await cl.query(query2, [data.rows[0].id, genders])
         await cl.query('COMMIT')
         return data
     } catch (error) {
@@ -65,11 +60,11 @@ export const createVideogame = async (body, userId) => {
     }
 }
 
-export const updateVideogame = async (body, videogameId) => {
+export const updateVideogame = async ( userId, body, videogameId) => {
     try {
-        const hasVideogame = await getVideogameById(videogameId)
+        const hasVideogame = await getVideogameById(userId, videogameId)
         if (hasVideogame.rows.length === 0) {
-            return 'This videogame does not exists...'
+            return hasVideogame
         } else {
             const mapBody = new Map(Object.entries(body))
             const query = createUpdateQuery(
@@ -86,11 +81,11 @@ export const updateVideogame = async (body, videogameId) => {
     }
 }
 
-export const deleteVideogame = async (videogameId) => {
+export const deleteVideogame = async (userId, videogameId) => {
     try {
-        const hasVideogame = await getVideogameById(videogameId)
+        const hasVideogame = await getVideogameById(userId, videogameId)
         if (hasVideogame.rows.length === 0) {
-            return 'This videogames does not exists...'
+            return hasVideogame
         }
         const query = createDeleteByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME, 'id')
         const data = await pg.query(query, [videogameId])
@@ -104,7 +99,7 @@ export const deleteAllVideogamesByUserId = async (userId) => {
     try {
         const hasVideogame = await getAllVideogamesByUserId(userId)
         if (hasVideogame.rows.length === 0) {
-            return 'This user does not have a videogames registered...'
+            return hasVideogame
         }
         const query = createDeleteAllByUserIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME)
         const data = await pg.query(query, [userId])

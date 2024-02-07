@@ -5,7 +5,7 @@ import STATUS from '../enums/status-keys.js'
 
 export const getPerifericById = async (req, res) => {
     try {
-        const data = await perifericServices.getPerifericById(req.params.id)
+        const data = await perifericServices.getPerifericById(req.session.user.id, req.params.id)
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
         } else {
@@ -68,6 +68,7 @@ export const updatePeriferic = async (req, res) => {
     } else {
         try {
             const data = await perifericServices.updatePeriferic(
+                req.session.user.id,
                 req.body,
                 req.params['id']
             )
@@ -105,7 +106,7 @@ export const deleteAllPerifericsByUserId = async (req, res) => {
 
 export const deletePeriferic = async (req, res) => {
     try {
-        const data = await perifericServices.deletePeriferic(req.params['id'])
+        const data = await perifericServices.deletePeriferic(req.session.user.id, req.params['id'])
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.ERROR })
         } else {

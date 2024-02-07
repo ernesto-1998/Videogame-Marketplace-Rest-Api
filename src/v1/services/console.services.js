@@ -9,6 +9,7 @@ import {
     createInsertQuery,
     createUpdateQuery,
 } from '../utils/create-dynamic-query.js'
+import isErrorThrown from '../utils/error-throw.js'
 
 export const getConsoleDictionary = async () => {
     try {
@@ -20,10 +21,13 @@ export const getConsoleDictionary = async () => {
     }
 }
 
-export const getConsoleById = async (consoleId) => {
+export const getConsoleById = async (userId, consoleId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME.CONSOLE, 'id')
         const data = await pg.query(query, [consoleId])
+        if(data.rows.length > 0){
+            isErrorThrown(userId, data.rows[0]['user_id'], 'This console does not belong to this user')
+        }
         return data
     } catch (error) {
         throw new Error(error)
@@ -32,7 +36,7 @@ export const getConsoleById = async (consoleId) => {
 
 export const getAllConsolesByUserId = async (userId) => {
     try {
-        const query = createGetByIdQuery(TABLE_SCHEMA_NAME.CONSOLE, userId)
+        const query = createGetByIdQuery(TABLE_SCHEMA_NAME.CONSOLE, 'user_id')
         const data = await pg.query(query, [userId])
         return data
     } catch (error) {
@@ -56,9 +60,9 @@ export const createConsole = async (body, userId) => {
     }
 }
 
-export const updateConsole = async (body, consoleId) => {
+export const updateConsole = async (userId ,body, consoleId) => {
     try {
-        const hasConsole = await getConsoleById(consoleId)
+        const hasConsole = await getConsoleById(userId, consoleId)
         if (hasConsole.rows.length === 0) {
             return hasConsole
         } else {
@@ -77,9 +81,9 @@ export const updateConsole = async (body, consoleId) => {
     }
 }
 
-export const deleteConsole = async (consoleId) => {
+export const deleteConsole = async (userId, consoleId) => {
     try {
-        const hasConsole = await getConsoleById(consoleId)
+        const hasConsole = await getConsoleById(userId, consoleId)
         if (hasConsole.rows.length === 0) {
             return hasConsole
         }

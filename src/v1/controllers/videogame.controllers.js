@@ -7,7 +7,7 @@ import STATUS from '../enums/status-keys.js'
 
 export const getVideogameById = async (req, res) => {
     try {
-        const data = await videogameServices.getVideogameById(req.params.id)
+        const data = await videogameServices.getVideogameById(req.session.user.id, req.params.id)
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.NO_CONTENT })
         } else {
@@ -70,6 +70,7 @@ export const updateVideogame = async (req, res) => {
     } else {
         try {
             const data = await videogameServices.updateVideogame(
+                req.session.user.id,
                 req.body,
                 req.params['id']
             )
@@ -107,7 +108,7 @@ export const deleteAllVideogamesByUserId = async (req, res) => {
 
 export const deleteVideogame = async (req, res) => {
     try {
-        const data = await videogameServices.deleteVideogame(req.params['id'])
+        const data = await videogameServices.deleteVideogame(req.session.user.id, req.params['id'])
         if (data.rows.length === 0) {
             res.status(404).json({ status: STATUS.ERROR })
         } else {

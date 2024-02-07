@@ -9,10 +9,15 @@ import {
     createUpdateQuery,
 } from '../utils/create-dynamic-query.js'
 
-export const getPerifericById = async (perifericId) => {
+import isErrorThrown from '../utils/error-throw.js'
+
+export const getPerifericById = async (userId, perifericId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME.PERIFERIC, 'id')
         const data = await pg.query(query, [perifericId])
+        if(data.rows.length > 0){
+            isErrorThrown(userId, data.rows[0]['user_id'], 'This periferic does not belong to this user')
+        }
         return data
     } catch (error) {
         throw new Error(error)
@@ -21,7 +26,8 @@ export const getPerifericById = async (perifericId) => {
 
 export const getAllPerifericsByUserId = async (userId) => {
     try {
-        const query = createGetByIdQuery(TABLE_SCHEMA_NAME.PERIFERIC, userId)
+        const query = createGetByIdQuery(TABLE_SCHEMA_NAME.PERIFERIC, 'user_id')
+        console.log(query)
         const data = await pg.query(query, [userId])
         return data
     } catch (error) {
@@ -45,9 +51,9 @@ export const createPeriferic = async (body, userId) => {
     }
 }
 
-export const updatePeriferic = async (body, perifericId) => {
+export const updatePeriferic = async ( userId, body, perifericId) => {
     try {
-        const hasPeriferics = await getPerifericById(perifericId)
+        const hasPeriferics = await getPerifericById(userId, perifericId)
         if (hasPeriferics.rows.length === 0) {
             hasPeriferics
         } else {
@@ -66,9 +72,9 @@ export const updatePeriferic = async (body, perifericId) => {
     }
 }
 
-export const deletePeriferic = async (perifericId) => {
+export const deletePeriferic = async (userId, perifericId) => {
     try {
-        const hasPeriferics = await getPerifericById(perifericId)
+        const hasPeriferics = await getPerifericById(userId, perifericId)
         if (hasPeriferics.rows.length === 0) {
             hasPeriferics
         }
