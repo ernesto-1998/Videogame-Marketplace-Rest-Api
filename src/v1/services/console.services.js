@@ -21,6 +21,16 @@ export const getConsoleDictionary = async () => {
     }
 }
 
+export const getAllConsoles = async () => {
+    try {
+        const query = createGetQuery(TABLE_SCHEMA_NAME.CONSOLE)
+        const data = await pg.query(query)
+        return data
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
 export const getConsoleById = async (userId, consoleId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME.CONSOLE, 'id')

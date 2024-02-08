@@ -5,6 +5,22 @@ import * as videogameServices from '../services/videogame.services.js'
 import errorMap from '../utils/error-map-handler.js'
 import STATUS from '../enums/status-keys.js'
 
+export const getAllVideogames = async (req, res) => {
+    try {
+        const data = await videogameServices.getAllVideogames()
+        if(data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
+        } else {
+            res.status(200).json({
+                status: STATUS.GET,
+                data,
+            })
+        }
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
 export const getVideogameById = async (req, res) => {
     try {
         const data = await videogameServices.getVideogameById(req.session.user.id, req.params.id)

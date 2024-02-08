@@ -6,6 +6,7 @@ import * as videogameControllers from '../controllers/videogame.controllers.js'
 
 const router = Router()
 
+router.get('/all', videogameControllers.getAllVideogames)
 router.get('/', videogameControllers.getAllVideogamesByUserId)
 router.get('/:id', ...videogameValidate.getId, videogameControllers.getVideogameById)
 router.post(

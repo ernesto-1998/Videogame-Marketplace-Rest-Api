@@ -11,6 +11,16 @@ import {
 } from '../utils/create-dynamic-query.js'
 import isErrorThrown from '../utils/error-throw.js'
 
+export const getAllVideogames = async () => {
+    try {
+        const query = "SELECT v.*, array_agg(g.id) AS gender_ids, array_agg(g.name) AS gender_names FROM videogame v LEFT JOIN videogame_gender vg ON v.id = vg.videogame_id LEFT JOIN gender g ON vg.gender_id = g.id GROUP BY v.id;"
+        const data = await pg.query(query)
+        return data
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
 export const getVideogameById = async (userId, videogameId) => {
     try {
         const query = "SELECT v.*, array_agg(g.id) AS gender_ids, array_agg(g.name) AS gender_names FROM videogame v LEFT JOIN videogame_gender vg ON v.id = vg.videogame_id LEFT JOIN gender g ON vg.gender_id = g.id WHERE v.id = $1 GROUP BY v.id;"

@@ -3,6 +3,22 @@ import * as perifericServices from '../services/periferic.services.js'
 import errorMap from '../utils/error-map-handler.js'
 import STATUS from '../enums/status-keys.js'
 
+export const getAllPeriferics = async (req, res) => {
+    try {
+        const data = await perifericServices.getAllPeriferics()
+        if(data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
+        } else {
+            res.status(200).json({
+                status: STATUS.GET,
+                data,
+            })
+        }
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
 export const getPerifericById = async (req, res) => {
     try {
         const data = await perifericServices.getPerifericById(req.session.user.id, req.params.id)

@@ -6,6 +6,7 @@ const router = Router()
 
 router.get('/console-dictionary', consoleControllers.getConsoleDictionary)
 
+router.get('/all', consoleControllers.getAllConsoles)
 router.get('/', consoleControllers.getAllConsolesByUserId)
 router.get('/:id', ...consoleValidate.getId, consoleControllers.getConsoleById)
 router.post(

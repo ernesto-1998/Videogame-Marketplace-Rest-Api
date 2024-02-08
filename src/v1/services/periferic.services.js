@@ -5,11 +5,22 @@ import {
     createDeleteAllByUserIdQuery,
     createDeleteByIdQuery,
     createGetByIdQuery,
+    createGetQuery,
     createInsertQuery,
     createUpdateQuery,
 } from '../utils/create-dynamic-query.js'
 
 import isErrorThrown from '../utils/error-throw.js'
+
+export const getAllPeriferics = async () => {
+    try {
+        const query = await createGetQuery(TABLE_SCHEMA_NAME.PERIFERIC)
+        const data = pg.query(query)
+        return data
+    } catch (error) {
+        throw new Error(error)
+    }
+}
 
 export const getPerifericById = async (userId, perifericId) => {
     try {

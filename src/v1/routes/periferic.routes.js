@@ -6,6 +6,7 @@ import * as perifericControllers from '../controllers/periferic.controllers.js'
 
 const router = Router()
 
+router.get('/all', perifericControllers.getAllPeriferics)
 router.get('/', perifericControllers.getAllPerifericsByUserId)
 router.get('/:id', ...perifericValidate.getId, perifericControllers.getPerifericById)
 router.post(

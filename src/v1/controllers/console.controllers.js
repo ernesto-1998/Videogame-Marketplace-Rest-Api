@@ -19,6 +19,22 @@ export const getConsoleDictionary = async (req, res) => {
     }
 }
 
+export const getAllConsoles = async (req, res) => {
+    try {
+        const data = await consoleServices.getAllConsoles()
+        if(data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
+        } else {
+            res.status(200).json({
+                status: STATUS.GET,
+                data,
+            })
+        }
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
 export const getConsoleById = async (req, res) => {
     try {
         const data = await consoleServices.getConsoleById(req.session.user.id ,req.params.id)
