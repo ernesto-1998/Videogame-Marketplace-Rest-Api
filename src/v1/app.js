@@ -10,6 +10,7 @@ import consoleRoutes from './routes/console.routes.js'
 import videogameRoutes from './routes/videogame.routes.js'
 import genderRoutes from './routes/gender.routes.js'
 import perifericRoutes from './routes/periferic.routes.js'
+import filterRoutes from './routes/filter.routes.js'
 
 const app = express()
 app.use(express.json())
@@ -24,5 +25,6 @@ app.use('/api/v1/console', authValidator.isUserActive, consoleRoutes)
 app.use('/api/v1/videogame', authValidator.isUserActive, videogameRoutes)
 app.use('/api/v1/gender', authValidator.isUserActive, genderRoutes)
 app.use('/api/v1/periferic', authValidator.isUserActive, perifericRoutes)
+app.use('/api/v1/filter', filterRoutes)
 
 export default app

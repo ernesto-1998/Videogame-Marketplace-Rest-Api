@@ -2,6 +2,7 @@ import { createVideogameValidation, updateVideogameValidation } from './videogam
 import { validateIdMiddleware } from '../general/id.validation.js'
 import { keysValidation } from '../general/keysEntityValidation.js'
 import { validateGenderArrayMiddleware } from '../general/gender.validation.js'
+import priceMin from '../general/price.validation.js'
 
 const videogameValidate = {
     getId: [
@@ -11,14 +12,14 @@ const videogameValidate = {
         keysValidation.videogame,
         createVideogameValidation,
         validateGenderArrayMiddleware,
-        // validateGendersExists,
+        priceMin,
     ],
     patch: [
         keysValidation.videogame,
         validateIdMiddleware,
         updateVideogameValidation,
         validateGenderArrayMiddleware,
-        // validateGendersExists,
+        priceMin,
     ],
     deleteId: [
         validateIdMiddleware,
