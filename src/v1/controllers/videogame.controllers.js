@@ -90,7 +90,6 @@ export const updateVideogame = async (req, res) => {
                 req.body,
                 req.params['id']
             )
-            console.log(data)
             if (data.rows.length === 0) {
                 res.status(404).json({ status: STATUS.ERROR })
             } else {

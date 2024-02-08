@@ -2,7 +2,6 @@ import STATUS from "../../enums/status-keys.js"
 
 export const queryPrice = (req, res, next) => {
     if(req.query.min !== undefined && req.query.max !== undefined) {
-        console.log(req.query)
         if(/^\d+$/.test(req.query.min) && /^\d+$/.test(req.query.max)) {
             next()
         } else {
@@ -39,7 +38,6 @@ export const queryPrice = (req, res, next) => {
 
 export const queryIsSoldOrUsed = (req, res, next) => {
     if(req.query.sold !== undefined && req.query.used !== undefined) {
-        console.log(req.query)
         if((req.query.sold === "true" || req.query.sold === "false") && (req.query.used === "true" || req.query.used === "false")) {
             next()
         } else {

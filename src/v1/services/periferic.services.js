@@ -38,7 +38,6 @@ export const getPerifericById = async (userId, perifericId) => {
 export const getAllPerifericsByUserId = async (userId) => {
     try {
         const query = createGetByIdQuery(TABLE_SCHEMA_NAME.PERIFERIC, 'user_id')
-        console.log(query)
         const data = await pg.query(query, [userId])
         return data
     } catch (error) {
