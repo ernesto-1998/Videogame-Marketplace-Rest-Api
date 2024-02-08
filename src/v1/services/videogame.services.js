@@ -48,7 +48,7 @@ export const createVideogame = async (body, userId) => {
         const values = [...mapBody.values()]
         await cl.query('BEGIN')
         const data = await cl.query(query, values)
-        const query2 = "INSERT INTO videogame_gender (videogame_id, gender_id) VALUES ($1, unnest($2::integer[])) ON CONFLICT DO NOTHING;"
+        const query2 = "INSERT INTO videogame_gender (videogame_id, gender_id) VALUES ($1, unnest($2::integer[])) ON CONFLICT DO NOTHING RETURNING *;"
         await cl.query(query2, [data.rows[0].id, genders])
         await cl.query('COMMIT')
         return data

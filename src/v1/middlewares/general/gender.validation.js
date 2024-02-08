@@ -12,13 +12,21 @@ export const validateGenderArrayMiddleware = (req, res, next) => {
                 for(let gender of req.body.genders) {
                     hasDifferentValue.push(validGenders.some(gender_id => gender_id.id === gender))
                 }
-                if (hasDifferentValue.some((value) => value === false)) {
+                if (!hasDifferentValue.some((value) => value === false)) {
+                    const set = new Set(req.body.genders)
+                    if (set.size === req.body.genders.length) {
+                        next()
+                    } else {
+                        res.status(400).json({
+                            status: STATUS.ERROR,
+                            message: 'There is one or more gender repeated',
+                        })
+                    }
+                } else {
                     res.status(400).json({
                         status: STATUS.ERROR,
                         message: 'There is one or more gender that does not exists',
                     })
-                } else {
-                    next()
                 }
             } else {
                 res.status(400).json({ status: STATUS.ERROR, message: 'genders must be integers...' })
@@ -30,12 +38,3 @@ export const validateGenderArrayMiddleware = (req, res, next) => {
         next()
     }
 }
-
-// export const validateGendersExists = (req, res, next) => {
-//     if(req.body.genders) {
-//         const message = 'There is one or more gender that does not exists'
-
-//     } else {
-//         next()
-//     }
-// }
