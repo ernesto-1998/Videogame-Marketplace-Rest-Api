@@ -8,7 +8,6 @@ import {
     createDeleteByIdQuery,
     createInsertQuery,
     createUpdateQuery,
-    // createUpdateQuery,
 } from '../utils/create-dynamic-query.js'
 import isErrorThrown from '../utils/error-throw.js'
 
@@ -117,15 +116,6 @@ export const updateVideogame = async ( userId, body, videogameId) => {
             } finally {
                 cl.release()
             }
-            // const mapBody = new Map(Object.entries(body))
-            // const query = createUpdateQuery(
-            //     [...mapBody.keys()],
-            //     TABLE_SCHEMA_NAME.VIDEOGAME,
-            //     'id'
-            // )
-            // const values = [...mapBody.values(), videogameId]
-            // const data = await pg.query(query, values)
-            // return data
         }
     } catch (error) {
         throw new Error(error)
