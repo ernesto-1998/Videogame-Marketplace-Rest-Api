@@ -8,6 +8,7 @@ import {
     createDeleteByIdQuery,
     createInsertQuery,
     createUpdateQuery,
+    // createUpdateQuery,
 } from '../utils/create-dynamic-query.js'
 import isErrorThrown from '../utils/error-throw.js'
 
@@ -66,15 +67,65 @@ export const updateVideogame = async ( userId, body, videogameId) => {
         if (hasVideogame.rows.length === 0) {
             return hasVideogame
         } else {
-            const mapBody = new Map(Object.entries(body))
-            const query = createUpdateQuery(
-                [...mapBody.keys()],
-                TABLE_SCHEMA_NAME.VIDEOGAME,
-                'id'
-            )
-            const values = [...mapBody.values(), videogameId]
-            const data = await pg.query(query, values)
-            return data
+            const cl = await poolConnection.connect()
+            try {
+                if(body.genders !== undefined){
+                    const mapBody = new Map(Object.entries(body))
+                    const genders = [...mapBody.get('genders')]
+                    mapBody.delete('genders')
+                    if (mapBody.size > 0) {
+                        const query = createUpdateQuery(
+                            [...mapBody.keys()],
+                            TABLE_SCHEMA_NAME.VIDEOGAME,
+                            'id'
+                        )
+                        const values = [...mapBody.values(), videogameId]
+                        await cl.query('BEGIN')
+                        const data = await cl.query(query, values)
+                        const query2 = createDeleteByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME_GENDER, 'videogame_id')
+                        await cl.query(query2, [videogameId]) 
+                        const query3 = `INSERT INTO ${TABLE_SCHEMA_NAME.VIDEOGAME_GENDER} (videogame_id, gender_id) VALUES ($1, unnest($2::integer[])) ON CONFLICT DO NOTHING;`
+                        await cl.query(query3, [data.rows[0].id, genders])
+                        await cl.query('COMMIT')
+                        return data
+                    } else {
+                        await cl.query('BEGIN')
+                        const query2 = createDeleteByIdQuery(TABLE_SCHEMA_NAME.VIDEOGAME_GENDER, 'videogame_id')
+                        await cl.query(query2, [videogameId]) 
+                        const query3 = `INSERT INTO ${TABLE_SCHEMA_NAME.VIDEOGAME_GENDER} (videogame_id, gender_id) VALUES ($1, unnest($2::integer[])) ON CONFLICT DO NOTHING RETURNING *;`
+                        const data2 = await cl.query(query3, [videogameId, genders])
+                        await cl.query('COMMIT')
+                        return data2
+                    }
+                } else {
+                    const mapBody = new Map(Object.entries(body))
+                    const query = createUpdateQuery(
+                        [...mapBody.keys()],
+                        TABLE_SCHEMA_NAME.VIDEOGAME,
+                        'id'
+                    )
+                    const values = [...mapBody.values(), videogameId]
+                    await cl.query('BEGIN')
+                    const data = await cl.query(query, values)
+                    await cl.query('COMMIT')
+                    return data
+                }
+
+            } catch (error) {
+                await cl.query('ROLLBACK')
+                throw new Error(error)
+            } finally {
+                cl.release()
+            }
+            // const mapBody = new Map(Object.entries(body))
+            // const query = createUpdateQuery(
+            //     [...mapBody.keys()],
+            //     TABLE_SCHEMA_NAME.VIDEOGAME,
+            //     'id'
+            // )
+            // const values = [...mapBody.values(), videogameId]
+            // const data = await pg.query(query, values)
+            // return data
         }
     } catch (error) {
         throw new Error(error)
