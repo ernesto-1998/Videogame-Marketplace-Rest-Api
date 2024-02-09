@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(sessionInstance)
 
 app.use('/api/v1/user', userRoutes)
-app.use('/api/v1/user', authValidator.isUserActive, profileRoutes)
+app.use('/api/v1/profile', authValidator.isUserActive, profileRoutes)
 app.use('/api/v1/address', authValidator.isUserActive, addressRoutes)
 app.use('/api/v1/console', authValidator.isUserActive, consoleRoutes)
 app.use('/api/v1/videogame', authValidator.isUserActive, videogameRoutes)

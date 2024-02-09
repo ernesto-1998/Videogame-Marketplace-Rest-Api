@@ -5,17 +5,17 @@ import profileValidate from '../middlewares/profile/index.js'
 
 const router = Router()
 
-router.get('/profile', profileControllers.getProfileByUserId)
+router.get('/', profileControllers.getProfileByUserId)
 router.post(
-    '/profile',
+    '/',
     ...profileValidate.post,
     profileControllers.createProfile
 )
 router.patch(
-    '/profile',
+    '/',
     ...profileValidate.patch,
     profileControllers.updateProfile
 )
-router.delete('/profile', profileControllers.deleteProfile)
+router.delete('/', profileControllers.deleteProfile)
 
 export default router
