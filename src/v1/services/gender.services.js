@@ -12,3 +12,13 @@ export const getGenders = async () => {
         throw new Error(error)
     }
 }
+
+export const getVideogameByGender = async (genderId) => {
+    try {
+        const query = "SELECT v.* FROM videogame v JOIN videogame_gender vg ON v.id = vg.videogame_id WHERE vg.gender_id = $1;"
+        const data = await pg.query(query, [genderId])
+        return data
+    } catch (error) {
+        throw new Error(error)
+    }
+}
