@@ -18,13 +18,13 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(sessionInstance)
 
-app.use('/api/v1/user', userRoutes)
-app.use('/api/v1/profile', authValidator.isUserActive, profileRoutes)
-app.use('/api/v1/address', authValidator.isUserActive, addressRoutes)
-app.use('/api/v1/console', authValidator.isUserActive, consoleRoutes)
-app.use('/api/v1/videogame', authValidator.isUserActive, videogameRoutes)
-app.use('/api/v1/gender', authValidator.isUserActive, genderRoutes)
-app.use('/api/v1/periferic', authValidator.isUserActive, perifericRoutes)
-app.use('/api/v1/filter', filterRoutes)
+app.use('/api/v1/users', userRoutes)
+app.use('/api/v1/profiles', authValidator.isUserActive, profileRoutes)
+app.use('/api/v1/addresses', authValidator.isUserActive, addressRoutes)
+app.use('/api/v1/consoles', authValidator.isUserActive, consoleRoutes)
+app.use('/api/v1/videogames', authValidator.isUserActive, videogameRoutes)
+app.use('/api/v1/genders', authValidator.isUserActive, genderRoutes)
+app.use('/api/v1/periferics', authValidator.isUserActive, perifericRoutes)
+app.use('/api/v1/filters', filterRoutes)
 
 export default app
