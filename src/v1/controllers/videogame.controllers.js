@@ -55,6 +55,22 @@ export const getAllVideogamesByUserId = async (req, res) => {
     }
 }
 
+export const getVideogamesByGender = async (req, res) => {
+    try {
+        const data = await videogameServices.getVideogamesByGender(req.params['id'])
+        if(data.rows.length === 0) {
+            res.status(404).json({ status: STATUS.NO_CONTENT })
+        } else {
+            res.status(200).json({
+                status: STATUS.GETS,
+                data,
+            })
+        }
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
 export const createVideogame = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {

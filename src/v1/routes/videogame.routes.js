@@ -9,6 +9,7 @@ const router = Router()
 router.get('/all', videogameControllers.getAllVideogames)
 router.get('/', videogameControllers.getAllVideogamesByUserId)
 router.get('/:id', ...videogameValidate.getId, videogameControllers.getVideogameById)
+router.get('/gender/:id', videogameValidate.getId, videogameControllers.getVideogamesByGender)
 router.post(
     '/',
     ...videogameValidate.post,

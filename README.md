@@ -30,13 +30,18 @@ body example:
 ```json
 {
     "email": "something@email.com",
+	"user_role_id": 2,
     "password": 12345
 }
 ```
 1. POST __/api/v1/user/signup__ ---> Here you can create a user
+
 1. POST __/api/v1/user/login__ ----> Login endpoint
+
 1. GET __/api/v1/user/logout__ ----> Close session endpoint
+
 1. GET __/api/v1/user/user-role__ ----> Here you can get all the user roles available (you'll need it to create a user)
+
 1. GET __/api/v1/user/user-all__ ----> Here you can get all the registered users
 
 ### Profile
@@ -55,8 +60,11 @@ body example:
 }
 ```
 1. GET __/api/v1/profile__ ---> Get the profile of the active user
+
 1. POST __/api/v1/profile__ ---> Create a profile
+
 1. PATCH __/api/v1/profile__ ---> Modify a profile
+
 1. DELETE __/api/v1/profile__ ---> Delete a profile
 
 ### Address
@@ -72,10 +80,15 @@ body example:
 These entities are pretty attached to user, in fact you need to have an active user to use these endpoints
 
 1. GET __/api/v1/address__ ---> Get all the addresses of the active user
+
 1. GET __/api/v1/address/:id__ ---> Get one address of the active user
+
 1. POST __/api/v1/address__ ---> Create an address
+
 1. PATCH __/api/v1/address__ ---> Modify an address
+
 1. DELETE __/api/v1/profile__ ---> Delete all the address of the active user
+
 1. DELETE __/api/v1/profile/:id__ ---> Delete one address of the active user
 
 ### Console, Periferic and Videogame
@@ -123,14 +136,29 @@ __Periferic__ body example:
 These endpoints are pretty similar, in fact all are the same, it just change the entity name on the url
 
 1. GET __/api/v1/(entity_name)/all__ ---> Here you retrieve all the registered items of the entity
+
 1. GET __/api/v1/(entity_name)__ ---> Here you retrieve all the registered items of the active user
+
 1. GET __/api/v1/(entity_name)/:id__ ---> Here you retrieve a registered items by entity_id (It only works if the item belongs to the active user)
+
 1. POST __/api/v1/(entity_name)__ ---> Here you create a register of the entity
+
 1. PATCH __/api/v1/(entity_name)__ ---> Here you modify an entity of the active user
+
 1. DELETE __/api/v1/(entity_name)__ ---> Here you delete all the registered entities of the active user 
+
 1. DELETE __/api/v1/(entity_name)/:id__ ---> Here you delete a entity of the active user 
 
+### Filters 
 
+1. GET __/api/v1/(consoles | videogames | periferics)/price?min=90&max=150__ ---> 
+With this you can filter consoles, videogames or periferics by price, you can set min price or max price (or both), quantities must be integers.
+
+2. GET __/api/v1/(consoles | videogames | periferics)/state?used=false&sold=true__ ---> 
+With this you can filter consoles, videogames or periferics by state, state could be is_sold or is_used (or both), both params need to be booleans.
+
+3. GET __/api/v1/videogames/gender/:id__ ---> 
+With this you can filter videogames by gender id, you pass the id of a gender as a param and it will retreive all the videogames that has that gender.
 
 ## Environment variables
 
