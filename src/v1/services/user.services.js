@@ -38,7 +38,7 @@ export const createUser = async (body) => {
         let { email, password } = body
         const isEmailUsed = await getUserByEmail(email)
         if (isEmailUsed.rows.length > 0) {
-            return isEmailUsed
+            throw new Error('This email is already registered...')
         }
         password = await hashPassword(password)
         const mapBody = new Map(Object.entries(body))

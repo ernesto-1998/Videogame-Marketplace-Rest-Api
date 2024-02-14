@@ -44,7 +44,7 @@ export const signupController = async (req, res) => {
         try {
             const data = await userServices.createUser(req.body)
             if (data.rows.length === 0) {
-                res.status(404).json({ status: STATUS.ERROR, message: 'This email is already registered...' })
+                res.status(404).json({ status: STATUS.NO_CONTENT })
             } else {
                 res.status(200).json({
                     status: STATUS.CREATE,
