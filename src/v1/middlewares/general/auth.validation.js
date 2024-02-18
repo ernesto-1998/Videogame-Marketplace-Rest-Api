@@ -25,7 +25,7 @@ export const isUserAdmin = (req, res, next) => {
     if (req.session.user.roleId === 1) {
         next()
     } else {
-        res.status(400).json({
+        res.status(401).json({
             status: 'fail',
             message: 'This resource requires admin privileges',
         })

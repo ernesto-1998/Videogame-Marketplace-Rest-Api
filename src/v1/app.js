@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 
 import sessionInstance from './session/index.js'
 import * as authValidator from './middlewares/general/auth.validation.js'
@@ -13,6 +14,11 @@ import perifericRoutes from './routes/periferic.routes.js'
 import filterRoutes from './routes/filter.routes.js'
 
 const app = express()
+
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:9000',
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

@@ -100,9 +100,13 @@ export const loginController = async (req, res) => {
 }
 
 export const logoutController = (req, res) => {
-    req.session.destroy()
-    res.clearCookie(process.env.SESSION_NAME)
-    res.status(200).json({
-        status: STATUS.LOGOUT,
-    })
+    if (req.session.user !== undefined) {
+        req.session.destroy()
+        res.clearCookie(process.env.SESSION_NAME)
+        res.status(200).json({
+            status: STATUS.LOGOUT,
+        })
+    } else {
+        res.status(400).json({status: STATUS.ERROR, message: "There is no active user to logout..."})
+    }
 }
