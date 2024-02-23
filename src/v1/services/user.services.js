@@ -59,11 +59,11 @@ export const loginUser = async (body) => {
     let { email, password } = body
     let data = await getUserByEmail(email)
     if (data.rows.length === 0) {
-        return data
+        throw new Error("User does not exists...")
     } else {
         const isValid = await comparePassword(password, data.rows[0].password)
         if (!isValid) {
-            return 'Wrong password...'
+            throw new Error("Email or password incorrect..")
         } else {
             return data
         }

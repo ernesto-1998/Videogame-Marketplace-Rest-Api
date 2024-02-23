@@ -64,34 +64,30 @@ export const loginController = async (req, res) => {
     } else {
         try {
             const data = await userServices.loginUser(req.body)
-            if (data.rows.length === 0) {
-                res.status(404).json({ status: STATUS.ERROR, message: 'Email or password incorrect' })
-            } else {
-                req.session.regenerate((err) => {
-                    if (err) {
-                        return res.json({
-                            status: STATUS.ERROR,
-                            error: err,
-                        })
-                    } else {
-                        req.session.user = {
+            req.session.regenerate((err) => {
+                if (err) {
+                    return res.json({
+                        status: STATUS.ERROR,
+                        error: err,
+                    })
+                } else {
+                    req.session.user = {
+                        id: data.rows[0].id,
+                        roleId: data.rows[0].user_role_id,
+                        email: data.rows[0].email,
+                    }
+                    res.status(200).json({
+                        status: STATUS.LOGIN,
+                        data: {
                             id: data.rows[0].id,
                             roleId: data.rows[0].user_role_id,
                             email: data.rows[0].email,
-                        }
-                        res.status(200).json({
-                            status: STATUS.LOGIN,
-                            data: {
-                                id: data.rows[0].id,
-                                roleId: data.rows[0].user_role_id,
-                                email: data.rows[0].email,
-                            },
-                        })
-                    }
-                })
-            }
+                        },
+                    })
+                }
+            })
         } catch (error) {
-            res.status(500).json({
+            res.status(400).json({
                 status: STATUS.ERROR,
                 message: error.message,
             })
@@ -107,6 +103,9 @@ export const logoutController = (req, res) => {
             status: STATUS.LOGOUT,
         })
     } else {
-        res.status(400).json({status: STATUS.ERROR, message: "There is no active user to logout..."})
+        res.status(400).json({
+            status: STATUS.ERROR,
+            message: 'There is no active user to logout...',
+        })
     }
 }
