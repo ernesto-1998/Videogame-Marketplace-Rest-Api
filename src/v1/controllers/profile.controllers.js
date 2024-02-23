@@ -10,8 +10,9 @@ export const getProfileByUserId = async (req, res) => {
             req.session.user.id
         )
         if (data.rows.length === 0) {
-            res.status(400).json({
+            res.status(404).json({
                 status: STATUS.NO_CONTENT,
+                message: "User does not have a profile..."
             })
         } else {
             res.status(200).json({
